@@ -203,6 +203,7 @@
       const { error } = await sb.from('orders').insert(supabaseRows(order));
       if (error) throw error;
     } catch (err) {
+      console.error('Order insert failed:', err && (err.message || err), err);
       sending = false;
       if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
       showCoBanner('fail', 'Something went wrong. Please try again.');
