@@ -154,3 +154,10 @@ nav .menu-btn{font-size:14px}
 @media (max-width:900px){
   .mf .mf-glow{display:none!important}
 }
+/* ===== HERO: navbar er niche dhuke jawa fix ===== */
+@media (max-width:900px){
+  .hero{padding-top:150px!important}
+}
+@media (min-width:901px){
+  .hero{padding-top:160px}
+}
