@@ -331,6 +331,7 @@
   var headTextOrig = null;
   function renderAcctBox() {
     var page = document.getElementById("page-profile"); if (!page) return;
+    renderAcctOrders();
     var host = page.querySelector(".acct") || page.querySelector(".wrap:last-child");
     var intro = page.querySelector(".page-head p");
     if (intro) {
@@ -387,10 +388,29 @@
         '<label for="tbp-address">Full address</label><textarea id="tbp-address" name="address" rows="3" placeholder="House, road, area, landmark">' + esc(p.address || "") + '</textarea>' +
         '<div class="tb-pmsg" role="alert"></div>' +
         '<button class="tb-btn" type="submit">Save information</button>' +
-      '</form>' +
-      '<div class="tb-acct-orders"><h4>Your orders</h4><div class="tb-orders" id="tbAcctOrders"><p>Loading…</p></div></div>';
+      '</form>';
+  }
+  /* ORDERS tab: show ONLY orders saved to the signed-in account (never orders stored on this device) */
+  var ordersObs = null;
+  function renderAcctOrders() {
+    var p = document.getElementById("acct-orders"); if (!p) return;
+    if (!ordersObs && window.MutationObserver) {
+      ordersObs = new MutationObserver(function () { renderAcctOrders(); });   /* if the old code re-draws the tab, put ours back */
+      ordersObs.observe(p, { childList: true });
+    }
+    var uid = A.user ? A.user.id : "guest";
+    if (p.getAttribute("data-tb") === uid && p.querySelector("[data-tb-orders]")) return;
+    p.setAttribute("data-tb", uid);
+    if (!A.user) {
+      p.innerHTML = '<div data-tb-orders class="tb-hint">Sign in to see the orders placed with your account. <button type="button" data-tb-in>Sign in</button></div>';
+      return;
+    }
+    p.innerHTML = '<div data-tb-orders class="tb-orders" id="tbAcctOrders"><p>Loading…</p></div>';
     loadOrders("tbAcctOrders");
   }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest("[data-tb-in]"); if (b) A.open("signin");
+  });
   window.addEventListener("hashchange", function () { if (location.hash.indexOf("#/profile") === 0) renderAcctBox(); });
   /* details saved on the Account page's old "MY DETAILS" tab also go to the customer's account (so they follow them to other devices) */
   document.addEventListener("submit", function (e) {
