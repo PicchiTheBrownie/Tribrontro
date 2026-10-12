@@ -161,3 +161,37 @@ nav .menu-btn{font-size:14px}
 @media (min-width:901px){
   .hero{padding-top:160px}
 }
+/* ===== PHONE: sob kichu choto ===== */
+@media (max-width:600px){
+  body{font-size:15px!important}
+
+  /* announcement + navbar */
+  .announce{font-size:11px!important}
+  nav .logo{font-size:14px!important;letter-spacing:.24em!important}
+  nav .menu-btn{font-size:13px!important;padding:8px 14px!important}
+
+  /* hero */
+  .hero{padding-top:120px!important}
+  .hero-copy h1{font-size:clamp(34px,10vw,44px)!important}
+  .hero-copy p{font-size:14.5px!important;line-height:1.65!important;max-width:320px!important}
+  .eyebrow{font-size:11px!important}
+  .btn{font-size:12.5px!important;padding:13px 22px!important}
+  .hero .cta-row{gap:10px!important}
+
+  /* manifesto */
+  .mf h2{font-size:21px!important}
+  .mf-card h3{font-size:14.5px!important}
+  .mf-card p{font-size:12px!important}
+
+  /* section headings + collection cards */
+  .section-head h2{font-size:28px!important}
+  .section-head span{font-size:12.5px!important}
+  .card-label b{font-size:20px!important}
+  .rail-head h2{font-size:26px!important}
+  .p-name{font-size:16px!important}
+  .rail-card b{font-size:15px!important}
+
+  /* page headings (shop, help, cart) */
+  .page-head h1{font-size:clamp(30px,9vw,38px)!important}
+  .page-head p{font-size:14px!important}
+}
