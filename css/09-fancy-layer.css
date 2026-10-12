@@ -1,0 +1,42 @@
+/* FILE: css/09-fancy-layer.css
+   Fancy layer: gradients, shimmer, glass effects
+   (Files load in number order; later files override earlier ones.) */
+/* ===== FANCY LAYER ===== */
+:root{--amber:#B58AD0;--crimson:#3D0F5C}
+html{scrollbar-color:#3a1d52 #09060A;scrollbar-width:thin}
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aurora i{position:absolute;border-radius:50%;filter:blur(110px);will-change:transform}
+.aurora i:nth-child(1){width:640px;height:640px;background:#8E3BC9;opacity:.30;top:-200px;right:-140px;animation:drift1 22s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:820px;height:520px;background:var(--crimson);opacity:.75;left:-240px;top:38%;animation:drift2 28s ease-in-out infinite alternate}
+.aurora i:nth-child(3){width:520px;height:520px;background:var(--amber);opacity:.07;bottom:-220px;right:18%;animation:drift3 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(-160px,220px) scale(1.15)}}
+@keyframes drift2{to{transform:translate(220px,-140px) scale(1.1)}}
+@keyframes drift3{to{transform:translate(-200px,-120px) scale(1.2)}}
+#embers{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+#prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:90;background:linear-gradient(90deg,#3D0F5C,#6A1B9A,#B58AD0);box-shadow:0 0 14px rgba(106,27,154,.8)}
+nav::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(120deg,rgba(181,138,208,.55),rgba(239,232,243,.05) 40%,rgba(106,27,154,.45));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none}
+.soon-card,.ship-bar,.filter-panel{position:relative}
+.soon-card::before,.summary::before,.ship-bar::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(140deg,rgba(181,138,208,.45),rgba(239,232,243,.04) 35%,rgba(106,27,154,.35));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none;opacity:.7;transition:opacity .4s}
+.soon-card:hover::before{opacity:1}
+@media (max-width:980px){.summary{position:relative}}
+.btn{position:relative;overflow:hidden}
+.btn-solid::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);transition:left .8s cubic-bezier(.16,1,.3,1)}
+.btn-solid:hover::after{left:130%}
+.btn-solid{box-shadow:0 10px 30px -12px rgba(106,27,154,.55),inset 0 1px 0 rgba(255,255,255,.22)}
+.hero-copy h1{filter:drop-shadow(0 0 30px rgba(106,27,154,.28))}
+.hero-copy h1 em{background-image:linear-gradient(90deg,#B58AD0,#6A1B9A,#D8BCE6,#6A1B9A,#B58AD0);background-size:200% 100%;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+.hero-copy .eyebrow::before,.page-head .eyebrow::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);margin-right:10px;box-shadow:0 0 12px var(--orange);vertical-align:1px}
+.section-head h2::before{width:14px;background:linear-gradient(90deg,#B58AD0,#6A1B9A);box-shadow:0 0 12px rgba(106,27,154,.7)}
+.marquee-track{font-size:22px;letter-spacing:.04em}
+.marquee-strip{box-shadow:inset 0 1px 0 rgba(181,138,208,.12),inset 0 -1px 0 rgba(181,138,208,.12)}
+.hero-visual .tex-main{box-shadow:0 0 0 1px rgba(181,138,208,.25),0 40px 90px -30px rgba(106,27,154,.45),inset 0 0 80px rgba(106,27,154,.15)}
+.product:hover .p-name{color:var(--amber)}
+.quick-add:hover{background:linear-gradient(135deg,#7E2BB5,#44106B);box-shadow:0 10px 24px -10px rgba(106,27,154,.7)}
+.card-label small{color:var(--amber)}
+.cat-no{color:var(--amber)}
+.pill:hover,.chip:hover{box-shadow:0 0 18px -4px rgba(106,27,154,.6)}
+.pill.active,.chip.on,.tabs button.active{background:linear-gradient(135deg,#7E2BB5,#44106B);box-shadow:0 8px 20px -8px rgba(106,27,154,.7)}
+footer::before{content:'';position:absolute;top:0;left:32px;right:32px;height:1px;background:linear-gradient(90deg,transparent,rgba(106,27,154,.8),rgba(181,138,208,.6),transparent)}
+.field input:focus,.promo input:focus,.note-area:focus,.newsletter-form input:focus{box-shadow:0 0 0 3px rgba(106,27,154,.18)}
+.toast{background:rgba(20,12,26,.88);backdrop-filter:blur(14px)}

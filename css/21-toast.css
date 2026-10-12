@@ -1,0 +1,17 @@
+/* FILE: css/21-toast.css
+   Add-to-cart popup (toast)
+   (Files load in number order; later files override earlier ones.) */
+/* add-to-cart popup (toast): mobile friendly */
+.toast{border-radius:20px;gap:14px;padding:12px 12px 12px 14px;max-width:min(460px,calc(100vw - 24px));align-items:center}
+.toast span{display:block;min-width:0;line-height:1.4;font-size:13.5px}
+.toast b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast small{display:block;color:var(--ink-soft);font-size:12px;margin-top:2px}
+.toast a{flex:none;padding:11px 18px}
+.toast.has-link::before{content:'✓';flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;background:linear-gradient(135deg,#7E2BB5,#44106B)}
+.toast:not(.has-link){padding-left:20px}
+@media (max-width:560px){
+  .toast{left:12px;right:12px;width:auto;max-width:none;transform:translateY(30px);bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .toast.show{transform:none}
+  .toast span{flex:1}
+  .toast a{padding:12px 16px;font-size:11px}
+}

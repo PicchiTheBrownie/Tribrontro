@@ -1,0 +1,32 @@
+/* FILE: css/07-footer-legacy.css
+   Original footer styles
+   (Files load in number order; later files override earlier ones.) */
+/* FOOTER */
+.newsletter-band{background:linear-gradient(120deg,#120E0B 0%,#130B1A 55%,#120E0B 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:56px 0;position:relative;z-index:2}
+.newsletter-inner{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap}
+.newsletter-inner h3{font-size:clamp(24px,3vw,30px)}
+.newsletter-inner p{color:var(--ink-soft);font-size:14px;margin-top:8px;max-width:340px;line-height:1.6}
+.newsletter-form{display:flex;gap:10px;flex-wrap:wrap}
+.newsletter-form input{background:#0A060E;border:1px solid var(--line);border-radius:100px;padding:14px 20px;font-family:var(--font-body);font-size:14px;color:var(--ink);min-width:240px}
+.newsletter-form input:focus{outline:none;border-color:var(--orange)}
+@media (max-width:640px){.newsletter-form{width:100%}.newsletter-form input{flex:1;min-width:0}.newsletter-inner{align-items:flex-start}}
+footer{padding:64px 0 40px}
+.foot-grid{display:flex;justify-content:space-between;gap:60px;flex-wrap:wrap}
+.foot-brand{max-width:280px}
+.foot-grid .logo{font-family:var(--font-display);font-size:23px;letter-spacing:.02em}
+.foot-brand p{color:var(--ink-soft);font-size:14px;margin-top:14px;line-height:1.65}
+.foot-social{display:flex;gap:18px;margin-top:22px}
+.foot-social a{font-size:12.5px;color:var(--ink-soft);font-weight:600;letter-spacing:.04em;transition:color .3s}
+.foot-social a:hover{color:var(--orange-deep)}
+.foot-links{display:flex;gap:50px;flex-wrap:wrap}
+.foot-links h4{font-size:11px;color:var(--ink-soft);margin-bottom:14px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.foot-links a{display:block;font-size:14.5px;margin-bottom:10px;color:var(--ink);font-weight:500;transition:color .25s}
+.foot-links a:hover{color:var(--orange-deep)}
+.foot-pay{display:flex;align-items:center;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:56px;padding-top:28px}
+.foot-pay>span{font-size:10.5px;letter-spacing:.12em;color:var(--ink-soft);font-weight:600}
+.pay-list{display:flex;gap:10px;flex-wrap:wrap}
+.pay-list span{font-size:12.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:7px 14px;border-radius:100px}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;color:var(--ink-soft);font-size:12.5px;margin-top:30px}
+.foot-legal{display:flex;gap:22px}
+.foot-legal a{color:var(--ink-soft);transition:color .3s}
+.foot-legal a:hover{color:var(--ink)}

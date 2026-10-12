@@ -1,0 +1,36 @@
+/* FILE: css/10-premium-finish.css
+   Deeper blacks, higher contrast
+   (Files load in number order; later files override earlier ones.) */
+/* ===== PREMIUM FINISH: deeper blacks, higher contrast ===== */
+:root{--paper:#050307;--paper-2:#09060C;--card:#0E0913;--ink:#F4EEF7;--ink-soft:#B0A4BC;--line:rgba(239,232,243,.09)}
+body{background-color:#050307;background-image:radial-gradient(900px 560px at 90% -8%,rgba(106,27,154,.16),transparent 62%),radial-gradient(700px 600px at -10% 55%,rgba(61,15,92,.18),transparent 62%),linear-gradient(180deg,#050307 0%,#07040A 55%,#050307 100%)}
+body::before{opacity:.045}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 48%,rgba(0,0,0,.62) 100%)}
+.aurora i{filter:blur(130px)}
+.aurora i:nth-child(1){opacity:.13}
+.aurora i:nth-child(2){opacity:.36}
+.aurora i:nth-child(3){opacity:.035}
+.glow{opacity:.16}
+.hero-visual .glow{opacity:.20}
+.hero-copy h1{filter:drop-shadow(0 0 28px rgba(150,50,200,.14))}
+.tex{box-shadow:0 34px 70px -34px rgba(0,0,0,.95),inset 0 0 0 1px rgba(239,232,243,.06)}
+.tex::after{background:linear-gradient(160deg,rgba(150,50,200,.10),rgba(0,0,0,.55))}
+.tex-1{background-color:#0D0812;background-image:radial-gradient(120% 100% at 20% 10%,#25103B,#0D0812 72%)}
+.tex-2{background-color:#0C0710;background-image:radial-gradient(100% 100% at 80% 100%,#2C1244,#0C0710 68%)}
+.tex-3{background-color:#0D0812;background-image:radial-gradient(90% 90% at 50% 0%,#210E36,#0A0610)}
+.tex-4{background-color:#0C0710;background-image:linear-gradient(200deg,#29103F,#0A0610 62%)}
+.tex-5{background-color:#0D0812;background-image:radial-gradient(100% 140% at 0% 100%,#2E1347,#0B0711)}
+.soon-card,.summary,.ship-bar,.filter-panel,.auth-form{background:linear-gradient(160deg,#120B19,#07040A);border-color:rgba(239,232,243,.08)}
+.auth-form{background:linear-gradient(180deg,#0F0914,#07040A)}
+.auth-side{background:radial-gradient(120% 90% at 0% 0%,rgba(106,27,154,.30),transparent 62%),linear-gradient(160deg,#150A1E,#050307 78%)}
+.marquee-strip{background:linear-gradient(90deg,#07040A,#0F0716,#07040A)}
+.newsletter-band{background:linear-gradient(120deg,#08050C 0%,#12091B 55%,#08050C 100%)}
+nav{background:rgba(8,5,12,.72)}
+.filter-bar,.jump{background:rgba(5,3,7,.94)}
+.floating-tag,.price-float,.cat-tag,.wish{background:rgba(8,5,12,.88)}
+.field input,.newsletter-form input,.promo input,.note-area,.size-sel,.qty,.cart-pay span,.tabs{background:#07040A}
+.pill,.chip,.sort,.filters .pill,.pay-list span{background:#0C0711}
+.pill.active,.chip.on{background:linear-gradient(135deg,#7E2BB5,#44106B)}
+.toast{background:rgba(12,7,17,.92)}
+.card-label b,.cat-no{text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.btn-solid{box-shadow:0 12px 30px -14px rgba(126,43,181,.7),inset 0 1px 0 rgba(255,255,255,.16)}

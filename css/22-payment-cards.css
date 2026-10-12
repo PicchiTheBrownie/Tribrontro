@@ -1,0 +1,177 @@
+/* FILE: css/22-payment-cards.css
+   Payment method cards, brand icons, TrxID box
+   (Files load in number order; later files override earlier ones.) */
+/* payment method cards */
+.pms{display:grid;gap:12px}
+.pm{position:relative;border:1px solid var(--line);border-radius:20px;background:#07040B;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.pm:has(input:checked){border-color:var(--orange-deep);box-shadow:0 0 0 3px rgba(126,43,181,.18)}
+.pm input{position:absolute;opacity:0;pointer-events:none}
+.pm-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;transition:background .3s}
+.pm:hover:not(.off) .pm-head{background:rgba(126,43,181,.06)}
+.pm input:checked+.pm-head{background:linear-gradient(160deg,#170B24,#07040B)}
+.pm input:focus-visible+.pm-head{outline:2px solid var(--amber);outline-offset:-2px}
+.pm-badge{flex:none;min-width:58px;height:38px;padding:0 10px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:.02em;color:#fff}
+.pm-badge svg{width:22px;height:22px}
+.pm-badge.cod{background:linear-gradient(135deg,#C9954A,#8A5F22);font-size:18px}
+.pm-badge.bkash{background:linear-gradient(135deg,#E2136E,#A00A4F)}
+.pm-badge.nagad{background:linear-gradient(135deg,#F7941D,#E2231A)}
+.pm-badge.card{background:linear-gradient(135deg,#7E2BB5,#44106B)}
+.pm-t b{display:block;font-size:14.5px;font-weight:600}
+.pm-t small{display:block;color:var(--ink-soft);font-size:12.5px;margin-top:3px;line-height:1.4}
+.pm-tick{margin-left:auto;flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(181,138,208,.5);position:relative;transition:.25s}
+.pm input:checked+.pm-head .pm-tick{border-color:var(--orange-deep);background:linear-gradient(135deg,#7E2BB5,#44106B)}
+.pm input:checked+.pm-head .pm-tick::after{content:'';position:absolute;left:6.5px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.pm-soon{margin-left:auto;flex:none;font-size:9.5px;letter-spacing:.14em;font-weight:600;color:var(--ink-soft);border:1px solid var(--line);padding:5px 10px;border-radius:100px}
+.pm.off{opacity:.55}
+.pm.off .pm-head{cursor:not-allowed}
+.pm-body{display:none;padding:2px 20px 22px;border-top:1px solid var(--line)}
+.pm input:checked~.pm-body{display:block;animation:pmIn .4s cubic-bezier(.16,1,.3,1)}
+@keyframes pmIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pm-steps{list-style:none;counter-reset:pms;margin:12px 0 0;padding:0}
+.pm-steps li{counter-increment:pms;position:relative;padding:10px 0 10px 40px;font-size:13.5px;line-height:1.65;color:var(--ink-soft)}
+.pm-steps li::before{content:counter(pms);position:absolute;left:0;top:9px;width:26px;height:26px;border-radius:50%;border:1px solid rgba(181,138,208,.4);color:var(--amber);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.pm-steps li b{color:var(--ink);font-weight:600}
+.pm-alt{opacity:.8}
+.copyrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;padding:9px 10px 9px 16px;border:1px dashed rgba(181,138,208,.4);border-radius:14px;background:rgba(126,43,181,.07);max-width:340px}
+.copyrow b{font-size:15px;letter-spacing:.05em;color:var(--ink)}
+.copyrow button{border:1px solid var(--line);background:rgba(5,3,8,.85);color:var(--ink);border-radius:100px;font-size:10.5px;font-weight:600;letter-spacing:.1em;padding:9px 15px;transition:.25s}
+.copyrow button:hover{background:#7E2BB5;border-color:transparent}
+.pm-note{font-size:12.5px;color:var(--ink-soft);margin-top:12px;opacity:.85;line-height:1.6}
+.pm-body .field{margin:14px 0 0}
+@media (max-width:560px){.pm-head{padding:14px;gap:12px}.pm-badge{min-width:52px}.pm-body{padding:2px 14px 18px}.copyrow{max-width:none}.pm-steps li{padding-left:36px}}
+/* payment cards: brand tiles, brand-colour accents */
+.pm{--pm:#B58AD0;--pmrgb:181,138,208}
+.pm[data-m="cod"]{--pm:#E0B455;--pmrgb:224,180,85}
+.pm[data-m="bkash"]{--pm:#E2136E;--pmrgb:226,19,110}
+.pm[data-m="nagad"]{--pm:#F6921E;--pmrgb:246,146,30}
+.pm[data-m="card"]{--pm:#9B5BD6;--pmrgb:155,91,214}
+.pm{border-radius:22px;background:linear-gradient(160deg,#0C0713,#050308)}
+.pm:has(input:checked){border-color:rgba(var(--pmrgb),.7);box-shadow:0 0 0 3px rgba(var(--pmrgb),.13),0 22px 44px -26px rgba(var(--pmrgb),.55)}
+.pm input:checked+.pm-head{background:linear-gradient(110deg,rgba(var(--pmrgb),.16),rgba(7,4,11,0) 72%)}
+.pm:hover:not(.off):not(:has(input:checked)){border-color:rgba(var(--pmrgb),.4)}
+.pm-head{gap:16px;padding:18px 20px}
+.pm-badge,.pm-badge.bkash,.pm-badge.nagad{background:#fff;color:#111;min-width:68px;height:44px;padding:0 12px;border-radius:13px;box-shadow:0 8px 18px -10px rgba(0,0,0,.9),inset 0 0 0 1px rgba(0,0,0,.05)}
+.pm-badge.cod{background:linear-gradient(135deg,#F4D690,#C9954A);color:#4A3210}
+.pm-badge.card{background:linear-gradient(135deg,#9B5BD6,#44106B);color:#fff}
+.pm-badge svg{width:24px;height:24px}
+.pm-badge img{display:block;max-width:56px;max-height:28px;object-fit:contain}
+.wm{font-family:var(--font-body);font-weight:800;font-size:17px;letter-spacing:-.03em;line-height:1}
+.wm-bkash b{color:#E2136E;font-weight:800}
+.wm-bkash span{color:#1B1B1B}
+.wm-nagad{background:linear-gradient(90deg,#F6921E,#E5231B);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:16px}
+.pm input:checked+.pm-head .pm-tick{background:var(--pm);border-color:var(--pm)}
+.pm-tick{border-color:rgba(var(--pmrgb),.55)}
+.pm-body{border-top-color:rgba(var(--pmrgb),.18);padding:4px 22px 24px}
+.pm-steps li::before{border-color:rgba(var(--pmrgb),.55);color:var(--pm);background:rgba(var(--pmrgb),.08)}
+.copyrow{border-color:rgba(var(--pmrgb),.45);background:rgba(var(--pmrgb),.07)}
+.copyrow button:hover{background:var(--pm);color:#fff}
+.pm .field input:focus{border-color:var(--pm);box-shadow:0 0 0 3px rgba(var(--pmrgb),.18)}
+.pm-soon{border-color:rgba(var(--pmrgb),.35);color:var(--pm)}
+@media (max-width:560px){.pm-head{padding:15px 14px;gap:12px}.pm-badge,.pm-badge.bkash,.pm-badge.nagad{min-width:58px;height:40px}.pm-body{padding:2px 14px 20px}}
+/* logo tiles use each company's own colour */
+.pm-badge.bkash{background:linear-gradient(135deg,#E2136E,#B80E58);box-shadow:0 10px 22px -10px rgba(226,19,110,.7),inset 0 1px 0 rgba(255,255,255,.25)}
+.pm-badge.nagad{background:linear-gradient(135deg,#F6921E,#E5231B);box-shadow:0 10px 22px -10px rgba(246,146,30,.7),inset 0 1px 0 rgba(255,255,255,.25)}
+.wm-bkash b,.wm-bkash span{color:#fff}
+.wm-nagad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#fff}
+/* payment cards: compact, fancy preview (unselected). Selected state keeps its full size. */
+.pm{border-radius:18px;border-color:rgba(var(--pmrgb),.18);background:linear-gradient(100deg,rgba(var(--pmrgb),.13),rgba(var(--pmrgb),.03) 40%,rgba(6,3,9,0) 72%),#060309;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);transition:border-color .3s,box-shadow .3s,transform .35s cubic-bezier(.16,1,.3,1)}
+.pm::after{content:'';position:absolute;top:0;bottom:0;left:-60%;width:38%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-20deg);transition:left .9s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.pm:hover:not(.off)::after{left:135%}
+.pm:hover:not(.off):not(:has(input:checked)){transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(var(--pmrgb),.6),inset 0 1px 0 rgba(255,255,255,.06)}
+.pm:has(input:checked){transform:none}
+.pm-head{padding:11px 16px;gap:13px;transition:padding .3s,background .3s}
+.pm-t{min-width:0}
+.pm-t b{font-size:14px}
+.pm-t small{font-size:12px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-badge,.pm-badge.bkash,.pm-badge.nagad{min-width:56px;height:36px;border-radius:11px;transition:height .3s,min-width .3s}
+.wm{font-size:15px}
+.wm-nagad{font-size:14.5px}
+.pm-badge svg{width:21px;height:21px}
+.pm-tick{width:20px;height:20px}
+.pm-tag{margin-left:auto;flex:none;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--pm);border:1px solid rgba(var(--pmrgb),.32);background:rgba(var(--pmrgb),.08);padding:4px 10px;border-radius:100px}
+.pm-tag+.pm-tick{margin-left:0}
+.pm input:checked+.pm-head{padding:18px 20px;gap:16px}
+.pm input:checked+.pm-head .pm-badge{min-width:68px;height:44px}
+.pm input:checked+.pm-head .pm-t b{font-size:14.5px}
+.pm input:checked+.pm-head .pm-t small{font-size:12.5px;white-space:normal;margin-top:3px}
+.pm input:checked+.pm-head .wm{font-size:17px}
+.pm input:checked+.pm-head .wm-nagad{font-size:16px}
+.pm input:checked+.pm-head .pm-badge svg{width:24px;height:24px}
+.pm input:checked+.pm-head .pm-tick{width:22px;height:22px}
+.pm input:checked+.pm-head .pm-tag{display:none}
+.pm input:checked+.pm-head .pm-tick{margin-left:auto}
+.pms{gap:10px}
+@media (max-width:560px){
+  .pm-head{padding:10px 12px;gap:11px}
+  .pm-badge,.pm-badge.bkash,.pm-badge.nagad{min-width:50px;height:34px}
+  .pm-tag{display:none}
+  .pm-tick{margin-left:auto}
+  .pm input:checked+.pm-head{padding:15px 14px;gap:12px}
+  .pm input:checked+.pm-head .pm-badge{min-width:58px;height:40px}
+}
+/* payment icons: glass tiles in brand colours, matched to the dark theme */
+.pm-badge,.pm-badge.bkash,.pm-badge.nagad,.pm-badge.cod,.pm-badge.card{position:relative;overflow:hidden;border:0;color:#fff;background:linear-gradient(165deg,rgba(255,255,255,.24),rgba(255,255,255,0) 48%),linear-gradient(135deg,var(--b1),var(--b2));box-shadow:0 10px 22px -10px rgba(var(--pmrgb),.7),inset 0 0 0 1px rgba(255,255,255,.18),inset 0 -12px 18px -12px rgba(0,0,0,.45)}
+.pm-badge::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.2),transparent 55%);pointer-events:none}
+.pm-badge.bkash{--b1:#E8247A;--b2:#86093F}
+.pm-badge.nagad{--b1:#F9A03A;--b2:#C32C0E}
+.pm-badge.cod{--b1:#D7B260;--b2:#7A5418;color:#FFF6E0}
+.pm-badge.card{--b1:#9A4FD4;--b2:#3A1163}
+.wm{text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.wm-bkash b{font-size:1.2em}
+.wm-bkash span{font-weight:700}
+.pm input:checked+.pm-head .pm-badge{box-shadow:0 12px 26px -10px rgba(var(--pmrgb),.95),inset 0 0 0 1px rgba(255,255,255,.22),inset 0 -12px 18px -12px rgba(0,0,0,.45)}
+.pm-badge svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+/* accepted-payment pills (footer + cart) get a small brand dot */
+.sf-pay .pay-list span,.cart-pay span{display:inline-flex;align-items:center;gap:9px}
+.sf-pay .pay-list span::before,.cart-pay span::before{content:'';width:8px;height:8px;border-radius:50%;background:#E0B455;box-shadow:0 0 10px rgba(224,180,85,.7)}
+.sf-pay .pay-list span:nth-child(2)::before,.cart-pay span:nth-child(2)::before{background:#E8247A;box-shadow:0 0 10px rgba(232,36,122,.7)}
+.sf-pay .pay-list span:nth-child(3)::before,.cart-pay span:nth-child(3)::before{background:#F9A03A;box-shadow:0 0 10px rgba(249,160,58,.7)}
+.sf-pay .pay-list span:nth-child(4)::before,.cart-pay span:nth-child(4)::before{background:#9A4FD4;box-shadow:0 0 10px rgba(154,79,212,.7)}
+/* official logo images: show the logo itself as the icon */
+.pm .pm-head .pm-badge.has-logo{background:none;box-shadow:none;border:0;padding:0;width:38px;min-width:0;height:38px;overflow:visible}
+.pm .pm-head .pm-badge.has-logo::after{display:none}
+.pm-badge.has-logo img{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;border-radius:22%;filter:drop-shadow(0 8px 14px rgba(var(--pmrgb),.5))}
+.pm input:checked+.pm-head .pm-badge.has-logo{width:48px;min-width:0;height:48px;box-shadow:none}
+@media (max-width:560px){.pm .pm-head .pm-badge.has-logo{width:36px;min-width:0;height:36px}.pm input:checked+.pm-head .pm-badge.has-logo{width:42px;min-width:0;height:42px}}
+/* payment cards: compact selected state */
+.pm input:checked+.pm-head{padding:12px 16px;gap:13px}
+.pm input:checked+.pm-head .pm-badge{min-width:60px;height:38px}
+.pm input:checked+.pm-head .pm-badge.has-logo{width:40px;min-width:0;height:40px}
+.pm input:checked+.pm-head .pm-t b{font-size:14px}
+.pm input:checked+.pm-head .pm-t small{font-size:12px;margin-top:1px}
+.pm input:checked+.pm-head .pm-tick{width:20px;height:20px}
+.pm-body{padding:0 16px 16px}
+.pm-steps{margin-top:6px}
+.pm-steps li{padding:6px 0 6px 32px;font-size:13px;line-height:1.55}
+.pm-steps li::before{width:22px;height:22px;font-size:11px;top:6px}
+.pm-steps li:has(.copyrow){display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.copyrow{margin-top:0;padding:5px 6px 5px 12px;max-width:250px;border-radius:12px;gap:10px}
+.copyrow b{font-size:14px}
+.copyrow button{padding:7px 12px;font-size:10px}
+.pm-body .field{margin-top:10px}
+.pm-body .field label{margin-bottom:5px;font-size:11px}
+.pm-body .field input{padding:11px 14px;font-size:14px}
+.pm-note{margin-top:8px;font-size:12px;line-height:1.5}
+@media (max-width:560px){
+  .pm-body{padding:0 12px 14px}
+  .pm input:checked+.pm-head{padding:11px 12px;gap:11px}
+  .pm input:checked+.pm-head .pm-badge.has-logo{width:38px;min-width:0;height:38px}
+  .pm-steps li{padding-left:30px}
+  .copyrow{max-width:none;flex:1 1 200px}
+}
+/* TrxID box below the payment options */
+.trx{--pmrgb:181,138,208;margin-top:14px;padding:14px 16px 12px;border:1px solid rgba(var(--pmrgb),.5);border-radius:18px;background:linear-gradient(110deg,rgba(var(--pmrgb),.10),rgba(5,3,8,0) 70%),#050308;transition:border-color .3s,opacity .3s,box-shadow .3s}
+.trx[data-m="bkash"]{--pmrgb:226,19,110}
+.trx[data-m="nagad"]{--pmrgb:246,146,30}
+.trx:not(.off){box-shadow:0 14px 30px -20px rgba(var(--pmrgb),.6)}
+.trx.off{opacity:.5;border-color:var(--line);background:#050308}
+.trx .field{margin:0}
+.trx .field label{margin-bottom:6px}
+.trx .field input:focus{border-color:rgb(var(--pmrgb));box-shadow:0 0 0 3px rgba(var(--pmrgb),.18)}
+.trx .field input:disabled{cursor:not-allowed}
+.trx-note{font-size:12px;color:var(--ink-soft);margin-top:8px;line-height:1.55}
+/* Cash on Delivery: green theme */
+.pm[data-m="cod"]{--pm:#34C77B;--pmrgb:52,199,123}
+.pm-badge.cod{--b1:#5BD594;--b2:#0F6B3E;color:#EFFFF5}
+.trx[data-m="cod"]{--pmrgb:52,199,123}
+.sf-pay .pay-list span:nth-child(1)::before,.cart-pay span:nth-child(1)::before{background:#34C77B;box-shadow:0 0 10px rgba(52,199,123,.7)}
