@@ -120,3 +120,20 @@ nav .menu-btn{font-size:14px}
   .mf{transform:none;animation:none}
 }
 @media (prefers-reduced-motion:reduce){.mf{animation:none}}
+/* ===== MANIFESTO: phone fix ===== */
+@media (max-width:900px){
+  .hero{padding-top:40px;padding-bottom:0}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;justify-items:center}
+  .hero-copy{width:100%}
+
+  .mf-stage{display:block;width:100%;max-width:100%;padding:0;margin:0;overflow:hidden;perspective:none}
+  .mf-orb,.mf-ring{display:none}
+
+  .mf{width:100%;max-width:100%;margin:0 auto;padding:30px 16px 0;border-radius:20px;
+    transform:none;animation:none;box-sizing:border-box}
+  .mf h2{font-size:24px;max-width:none}
+  .mf-card{padding:11px 12px}
+  .mf-card h3{font-size:15px}
+  .mf-card p{font-size:12.5px}
+  .mf-ribbon{margin:0 -16px}
+}
