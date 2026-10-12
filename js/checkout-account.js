@@ -1,5 +1,6 @@
 /* FILE: js/checkout-account.js
-   Checkout, order confirmation, My Account, Help page hooks */
+   Checkout, order confirmation, My Account, Help page hooks
+   + Supabase: orders are INSERTed into the "orders" table (insert only, no select/update/delete) */
 (function(){
   const $ = id => document.getElementById(id);
   const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -7,6 +8,14 @@
     get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
+
+  /* ---- Supabase (publishable key only; never put a secret/service key in frontend code) ---- */
+  const SUPABASE_URL = "https://bhhqaarbhpslpwsfmxdl.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_xFUgjtsBKKC5zYc4s1bRzg_FjfllZEJ";
+  let sb = null;
+  try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY); } catch (e) { sb = null; }
+  let sending = false;
+
   const TITLES = {
     home:'TRIBRONTRO — Dark thinking, worn in daylight', shop:'Shop — TRIBRONTRO', category:'Categories — TRIBRONTRO',
     cart:'Your cart — TRIBRONTRO', checkout:'Checkout — TRIBRONTRO', success:'Order placed — TRIBRONTRO',
@@ -114,9 +123,37 @@
     if (o.note) L.push('Note: ' + o.note);
     return L.join('\n');
   }
+
+  /* One row per cart item. Order-level details (order id, payment, TrxID, area, promo, total)
+     go into "notes" so the insert only uses columns that exist in the orders table. */
+  function supabaseRows(o){
+    const notes = [
+      'Order ' + o.id,
+      'Area: ' + o.area,
+      'Payment: ' + PAYNAME[o.pay] + (o.trx ? ' (TrxID: ' + o.trx + ')' : ''),
+      o.promo ? 'Promo: ' + o.promo : '',
+      'Order total: ' + fmt(o.totals.total),
+      o.note ? 'Customer note: ' + o.note : ''
+    ].filter(Boolean).join(' | ');
+    return o.items.map(i => ({
+      customer_name: o.name,
+      phone: o.phone,
+      email: o.email || null,
+      city: o.district,
+      address: o.address,
+      country: 'Bangladesh',
+      product_name: i.name,
+      product_variant: i.color + ' / ' + i.size,
+      quantity: i.qty,
+      notes: notes,
+      status: 'pending'
+    }));
+  }
+
   $('coForm').addEventListener('change', e => { if (e.target.name === 'pay') syncTrx(); });
-  $('coForm').addEventListener('submit', e => {
+  $('coForm').addEventListener('submit', async e => {
     e.preventDefault();
+    if (sending) return;
     if (!cart.length) { location.hash = '#/cart'; return; }
     const name = $('co-name').value.trim(), phone = normPhone($('co-phone').value), email = $('co-email').value.trim();
     const district = $('co-district').value.trim(), address = $('co-address').value.trim(), pay = payChoice();
@@ -143,6 +180,26 @@
       note:$('co-note').value.trim(), promo:promo || '', totals:t,
       items:cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })
     };
+
+    /* ---- send to Supabase (INSERT only) ---- */
+    const btn = $('coForm').querySelector('[type="submit"]');
+    const btnHTML = btn ? btn.innerHTML : '';
+    sending = true;
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span>PLACING ORDER…</span>'; }
+    try {
+      if (!sb) throw new Error('Supabase client not loaded');
+      const { error } = await sb.from('orders').insert(supabaseRows(order));
+      if (error) throw error;
+    } catch (err) {
+      sending = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
+      showToast('Something went wrong. Please try again.', false);
+      return; // cart is kept so the customer can retry
+    }
+    sending = false;
+    if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
+
+    /* ---- success: keep local copy for the success page + My Account ---- */
     const all = db.get('tb_orders', []); all.unshift(order); db.set('tb_orders', all.slice(0, 20));
     db.set('tb_last', id);
     if ($('co-save').checked) db.set('tb_profile', { name, phone, email, district, address });
