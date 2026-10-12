@@ -1,5 +1,6 @@
 /* FILE: js/checkout-account.js
-   Checkout, order confirmation, My Account, Help page hooks */
+   Checkout, order confirmation, My Account, Help page hooks
+   + Supabase: orders are INSERTed into the "orders" table (insert only, no select/update/delete) */
 (function(){
   const $ = id => document.getElementById(id);
   const esc = t => String(t == null ? '' : t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -7,6 +8,27 @@
     get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
+
+  /* ---- Supabase (publishable key only; never put a secret/service key in frontend code) ---- */
+  const SUPABASE_URL = "https://bhhqaarbhpslpwsfmxdl.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_xFUgjtsBKKC5zYc4s1bRzg_FjfllZEJ";
+  let sb = null;
+  try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY); } catch (e) { sb = null; }
+  let sending = false;
+  let justPlaced = false;
+
+  /* ---- banners (generic messages only; no error details shown to customers) ---- */
+  const bannerHTML = (kind, msg) =>
+    '<div role="' + (kind === 'ok' ? 'status' : 'alert') + '" style="padding:12px 14px;margin:0 0 16px;border-radius:8px;font-weight:500;border:1px solid ' +
+    (kind === 'ok' ? '#17613f;background:#e4f4ec;color:#17613f' : '#b3261e;background:#fdecea;color:#b3261e') + '">' + esc(msg) + '</div>';
+  function showCoBanner(kind, msg){
+    let b = $('coBanner');
+    if (!b) { b = document.createElement('div'); b.id = 'coBanner'; $('coForm').parentNode.insertBefore(b, $('coForm')); }
+    b.innerHTML = bannerHTML(kind, msg);
+    b.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function hideCoBanner(){ const b = $('coBanner'); if (b) b.innerHTML = ''; }
+
   const TITLES = {
     home:'TRIBRONTRO — Dark thinking, worn in daylight', shop:'Shop — TRIBRONTRO', category:'Categories — TRIBRONTRO',
     cart:'Your cart — TRIBRONTRO', checkout:'Checkout — TRIBRONTRO', success:'Order placed — TRIBRONTRO',
@@ -114,9 +136,36 @@
     if (o.note) L.push('Note: ' + o.note);
     return L.join('\n');
   }
+
+  /* One row per cart item. Order-level details (order id, payment, TrxID, area, promo, total)
+     go into "notes" so the insert only uses columns that exist in the orders table. */
+  function supabaseRows(o){
+    return [{
+      order_id: o.id,
+      name: o.name,
+      phone: o.phone,
+      email: o.email || null,
+      delivery_area: o.area,
+      district: o.district,
+      address: o.address,
+      note: o.note || null,
+      payment_method: o.pay,
+      trx_id: o.trx || null,
+      promo_code: o.promo || null,
+      items: o.items.map(i => ({ name: i.name, color: i.color, size: i.size, qty: i.qty, price: i.price })),
+      subtotal: o.totals.subtotal,
+      delivery_fee: o.totals.shipping,
+      discount: o.totals.discount,
+      total: o.totals.total,
+      status: 'pending'
+    }];
+  }
+
   $('coForm').addEventListener('change', e => { if (e.target.name === 'pay') syncTrx(); });
-  $('coForm').addEventListener('submit', e => {
+  $('coForm').addEventListener('submit', async e => {
     e.preventDefault();
+    if (sending) return;
+    hideCoBanner();
     if (!cart.length) { location.hash = '#/cart'; return; }
     const name = $('co-name').value.trim(), phone = normPhone($('co-phone').value), email = $('co-email').value.trim();
     const district = $('co-district').value.trim(), address = $('co-address').value.trim(), pay = payChoice();
@@ -143,11 +192,33 @@
       note:$('co-note').value.trim(), promo:promo || '', totals:t,
       items:cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })
     };
+
+    /* ---- send to Supabase (INSERT only) ---- */
+    const btn = $('coForm').querySelector('[type="submit"]');
+    const btnHTML = btn ? btn.innerHTML : '';
+    sending = true;
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span>PLACING ORDER…</span>'; }
+    try {
+      if (!sb) throw new Error('Supabase client not loaded');
+      const { error } = await sb.from('orders').insert(supabaseRows(order));
+      if (error) throw error;
+    } catch (err) {
+      console.error('Order insert failed:', err && (err.message || err), err);
+      sending = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
+      showCoBanner('fail', 'Something went wrong. Please try again.');
+      return; // cart is kept so the customer can retry
+    }
+    sending = false;
+    if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
+
+    /* ---- success: keep local copy for the success page + My Account ---- */
     const all = db.get('tb_orders', []); all.unshift(order); db.set('tb_orders', all.slice(0, 20));
     db.set('tb_last', id);
     if ($('co-save').checked) db.set('tb_profile', { name, phone, email, district, address });
     cart = []; promo = null; cartNote = ''; saveCart(); updateCartUI();
     $('coForm').dataset.filled = '';
+    justPlaced = true;
     location.hash = '#/success';
   });
 
@@ -156,8 +227,10 @@
     const id = db.get('tb_last', null), o = db.get('tb_orders', []).find(x => x.id === id);
     if (!o) { location.hash = '#/home'; return; }
     const link = 'https://wa.me/' + STORE.whatsapp + '?text=' + encodeURIComponent(waMessage(o));
+    const okBanner = justPlaced ? bannerHTML('ok', 'Order received. We will contact you shortly to confirm it.') : '';
+    justPlaced = false;
     $('successRoot').innerHTML =
-      '<div class="ok-wrap"><div class="ok-badge">✓</div><h1>Thank you, <em>' + esc(o.name.split(' ')[0]) + '.</em></h1>' +
+      '<div class="ok-wrap">' + okBanner + '<div class="ok-badge">✓</div><h1>Thank you, <em>' + esc(o.name.split(' ')[0]) + '.</em></h1>' +
       '<div class="ok-id">ORDER ' + esc(o.id) + '</div>' +
       '<p>Your order is placed. <b style="color:var(--ink)">One last step:</b> tap the button below to send your order details to us on WhatsApp. We will then confirm by phone or WhatsApp and get it on its way.</p>' +
       '<div class="co-card ok-card">' + itemsHTML(o.items) + '<div style="height:8px"></div>' + totalsHTML(o.totals, o.promo) +
