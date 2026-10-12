@@ -137,3 +137,14 @@ nav .menu-btn{font-size:14px}
   .mf-card p{font-size:12.5px}
   .mf-ribbon{margin:0 -16px}
 }
+/* ===== MANIFESTO: faka jayga + phone overflow fix ===== */
+.mf>.mf-glow{position:absolute}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .hero-copy,.mf-stage{min-width:0;max-width:100%}
+  .mf-stage{overflow:hidden}
+  .mf-orb,.mf-ring{display:none}
+  .mf{width:100%;max-width:100%;box-sizing:border-box;transform:none;animation:none;padding:30px 16px 0}
+  .mf-ribbon{margin:0 -16px}
+}
