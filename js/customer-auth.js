@@ -4,7 +4,7 @@
      (closing the website and coming back shows it again).
    - Orders can still be placed without an account.
    - Signed-in customers get: their name on the navbar, checkout auto-fill, and an ACCOUNT PAGE section (#/profile) showing
-     their name, email, phone, saved-to-account details and their orders (with Sign out).
+     their name, email, phone, an editable "My information" form (saved to their account) and their orders (with Sign out).
 
    HOW TO LOAD (in index.html, AFTER supabase-js and your own client):
      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
@@ -137,7 +137,21 @@
     ".tb-acct-orders{margin-top:18px}",
     ".tb-acct-orders h4{margin:0 0 10px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,237,227,.6);font-weight:600}",
     ".tb-hint{margin-top:14px;font-size:14px;color:rgba(244,237,227,.7)}",
-    ".tb-hint button{border:0;background:none;color:var(--tb-link);font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}"
+    ".tb-hint button{border:0;background:none;color:var(--tb-link);font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:0}",
+    /* account information form */
+    ".tb-form{margin-top:18px;padding:22px;border-radius:24px;color:#F4EDE3;background:radial-gradient(120% 90% at 100% 0%,var(--tb-glow),transparent 60%)," + T.card + ";border:1px solid rgba(244,237,227,.13)}",
+    ".tb-form h4{margin:0 0 4px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,237,227,.6);font-weight:600}",
+    ".tb-form .tb-fine{margin:0 0 6px;font-size:13px;color:rgba(244,237,227,.55)}",
+    ".tb-form .tb-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}",
+    "@media(max-width:560px){.tb-form .tb-row{grid-template-columns:1fr}}",
+    ".tb-form label{display:block;margin:14px 0 6px;font-size:12px;letter-spacing:.04em;color:rgba(244,237,227,.66)}",
+    ".tb-form input,.tb-form textarea{width:100%;box-sizing:border-box;padding:12px 16px;border-radius:14px;border:1px solid rgba(244,237,227,.14);background:rgba(244,237,227,.05);color:#F4EDE3;font:inherit;font-size:15px;resize:vertical}",
+    ".tb-form input[readonly]{opacity:.55;cursor:not-allowed}",
+    ".tb-form input::placeholder,.tb-form textarea::placeholder{color:rgba(244,237,227,.3)}",
+    ".tb-form input:focus,.tb-form textarea:focus{outline:none;border-color:var(--tb-ac);box-shadow:0 0 0 3px var(--tb-ac-soft)}",
+    ".tb-form .tb-pmsg{min-height:20px;margin-top:12px;font-size:13.5px;color:#FF8F8F}",
+    ".tb-form .tb-pmsg.ok{color:#8fe3b0}",
+    ".tb-form .tb-btn{width:auto;padding:13px 28px;margin-top:16px}"
   ].join("\n");
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
@@ -307,7 +321,7 @@
     btnEl.style.visibility = ready ? "" : "hidden";   /* avoid flashing "Sign in" for people who are already logged in */
   }
 
-  /* ---------- ACCOUNT PAGE (#/profile): signed-in info + orders live inside the Account section ---------- */
+  /* ---------- ACCOUNT PAGE (#/profile): signed-in info, "My information" form + orders live inside the Account section ---------- */
   function goAccount(toOrders) {
     if (!document.getElementById("page-profile")) return A.open("account");   /* no account page found: use the popup */
     if (location.hash === "#/profile") { renderAcctBox(); scrollBox(); } else { location.hash = "#/profile"; }
@@ -325,27 +339,60 @@
     }
     if (!host) return;
     var box = document.getElementById("tbAcctBox");
-    if (!box) { box = document.createElement("div"); box.id = "tbAcctBox"; box.className = "tb-acct"; host.insertBefore(box, host.firstChild || null);
+    if (!box) {
+      box = document.createElement("div"); box.id = "tbAcctBox"; box.className = "tb-acct"; host.insertBefore(box, host.firstChild || null);
       box.addEventListener("click", function (e) {
         var b = e.target.closest("[data-a]"); if (!b) return;
         var a = b.getAttribute("data-a");
         if (a === "out") A.signOut(); else if (a === "in") A.open("signin"); else if (a === "up") A.open("signup");
       });
+      box.addEventListener("submit", function (e) {
+        var f = e.target; if (f.id !== "tbProfForm") return;
+        e.preventDefault();
+        var v = function (n) { return ((f.elements[n] && f.elements[n].value) || "").trim(); };
+        var pm = box.querySelector(".tb-pmsg");
+        var say = function (t, ok) { pm.textContent = t; pm.className = "tb-pmsg" + (ok ? " ok" : ""); };
+        if (!v("name")) return say("Please enter your name.");
+        if (v("phone") && !/^(\+?88)?01\d{9}$/.test(v("phone").replace(/[\s-]/g, ""))) return say("Enter a valid phone number, like 01XXXXXXXXX.");
+        var btn = f.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Saving…";
+        A.saveProfile({ name: v("name"), phone: v("phone"), district: v("district"), address: v("address") }).then(function (r) {
+          btn.disabled = false; btn.textContent = "Save information";
+          if (r.error) return say(r.error.message);
+          say("Saved to your account.", true);
+          var b = box.querySelector(".tb-acct-info b"); if (b) b.textContent = v("name");
+          var av = box.querySelector(".tb-av"); if (av) av.textContent = v("name").charAt(0).toUpperCase();
+          updateBtn();
+        });
+      });
     }
     if (!A.user) {
+      box.removeAttribute("data-uid");
       box.innerHTML = '<div class="tb-acct-card"><div class="tb-acct-info"><b>Have an account?</b><span>Sign in to see your orders and saved details on any device.</span></div><div class="tb-acct-btns"><button type="button" class="tb-sm solid" data-a="in">Sign in</button><button type="button" class="tb-sm" data-a="up">Create account</button></div></div>';
       return;
     }
+    /* already showing this user: don't re-render, or we'd wipe what they are typing */
+    if (box.getAttribute("data-uid") === A.user.id) return;
+    box.setAttribute("data-uid", A.user.id);
     var p = A.profile || {}, md = A.user.user_metadata || {};
     var name = p.name || md.name || "", phone = p.phone || md.phone || "";
     box.innerHTML = '<div class="tb-acct-card"><span class="tb-av">' + esc((name || A.user.email || "?").charAt(0).toUpperCase()) + '</span>' +
-      '<div class="tb-acct-info"><b>' + esc(name || "My account") + '</b><span>' + esc(A.user.email) + '</span>' + (phone ? '<span>' + esc(phone) + '</span>' : '') + '</div>' +
+      '<div class="tb-acct-info"><b>' + esc(name || "My account") + '</b><span>' + esc(A.user.email) + '</span></div>' +
       '<div class="tb-acct-btns"><button type="button" class="tb-sm" data-a="out">Sign out</button></div></div>' +
+      '<form class="tb-form" id="tbProfForm" novalidate>' +
+        '<h4>My information</h4><p class="tb-fine">Saved to your account. We use it to fill in checkout for you.</p>' +
+        '<div class="tb-row"><div><label for="tbp-name">Full name *</label><input id="tbp-name" name="name" autocomplete="name" placeholder="Your name" value="' + esc(name) + '"></div>' +
+        '<div><label for="tbp-phone">Phone</label><input id="tbp-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX" value="' + esc(phone) + '"></div></div>' +
+        '<label for="tbp-email">Email</label><input id="tbp-email" type="email" value="' + esc(A.user.email) + '" readonly>' +
+        '<label for="tbp-district">District / area</label><input id="tbp-district" name="district" placeholder="e.g. Rajshahi, Dhanmondi" value="' + esc(p.district || "") + '">' +
+        '<label for="tbp-address">Full address</label><textarea id="tbp-address" name="address" rows="3" placeholder="House, road, area, landmark">' + esc(p.address || "") + '</textarea>' +
+        '<div class="tb-pmsg" role="alert"></div>' +
+        '<button class="tb-btn" type="submit">Save information</button>' +
+      '</form>' +
       '<div class="tb-acct-orders"><h4>Your orders</h4><div class="tb-orders" id="tbAcctOrders"><p>Loading…</p></div></div>';
     loadOrders("tbAcctOrders");
   }
   window.addEventListener("hashchange", function () { if (location.hash.indexOf("#/profile") === 0) renderAcctBox(); });
-  /* details saved on the Account page also go to the customer's account (so they follow them to other devices) */
+  /* details saved on the Account page's old "MY DETAILS" tab also go to the customer's account (so they follow them to other devices) */
   document.addEventListener("submit", function (e) {
     if (!e.target || e.target.id !== "pfForm" || !A.user) return;
     var g = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; };
