@@ -15,6 +15,19 @@
   let sb = null;
   try { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY); } catch (e) { sb = null; }
   let sending = false;
+  let justPlaced = false;
+
+  /* ---- banners (generic messages only; no error details shown to customers) ---- */
+  const bannerHTML = (kind, msg) =>
+    '<div role="' + (kind === 'ok' ? 'status' : 'alert') + '" style="padding:12px 14px;margin:0 0 16px;border-radius:8px;font-weight:500;border:1px solid ' +
+    (kind === 'ok' ? '#17613f;background:#e4f4ec;color:#17613f' : '#b3261e;background:#fdecea;color:#b3261e') + '">' + esc(msg) + '</div>';
+  function showCoBanner(kind, msg){
+    let b = $('coBanner');
+    if (!b) { b = document.createElement('div'); b.id = 'coBanner'; $('coForm').parentNode.insertBefore(b, $('coForm')); }
+    b.innerHTML = bannerHTML(kind, msg);
+    b.scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function hideCoBanner(){ const b = $('coBanner'); if (b) b.innerHTML = ''; }
 
   const TITLES = {
     home:'TRIBRONTRO — Dark thinking, worn in daylight', shop:'Shop — TRIBRONTRO', category:'Categories — TRIBRONTRO',
@@ -154,6 +167,7 @@
   $('coForm').addEventListener('submit', async e => {
     e.preventDefault();
     if (sending) return;
+    hideCoBanner();
     if (!cart.length) { location.hash = '#/cart'; return; }
     const name = $('co-name').value.trim(), phone = normPhone($('co-phone').value), email = $('co-email').value.trim();
     const district = $('co-district').value.trim(), address = $('co-address').value.trim(), pay = payChoice();
@@ -193,7 +207,7 @@
     } catch (err) {
       sending = false;
       if (btn) { btn.disabled = false; btn.innerHTML = btnHTML; }
-      showToast('Something went wrong. Please try again.', false);
+      showCoBanner('fail', 'Something went wrong. Please try again.');
       return; // cart is kept so the customer can retry
     }
     sending = false;
@@ -205,6 +219,7 @@
     if ($('co-save').checked) db.set('tb_profile', { name, phone, email, district, address });
     cart = []; promo = null; cartNote = ''; saveCart(); updateCartUI();
     $('coForm').dataset.filled = '';
+    justPlaced = true;
     location.hash = '#/success';
   });
 
@@ -213,8 +228,10 @@
     const id = db.get('tb_last', null), o = db.get('tb_orders', []).find(x => x.id === id);
     if (!o) { location.hash = '#/home'; return; }
     const link = 'https://wa.me/' + STORE.whatsapp + '?text=' + encodeURIComponent(waMessage(o));
+    const okBanner = justPlaced ? bannerHTML('ok', 'Order received. We will contact you shortly to confirm it.') : '';
+    justPlaced = false;
     $('successRoot').innerHTML =
-      '<div class="ok-wrap"><div class="ok-badge">✓</div><h1>Thank you, <em>' + esc(o.name.split(' ')[0]) + '.</em></h1>' +
+      '<div class="ok-wrap">' + okBanner + '<div class="ok-badge">✓</div><h1>Thank you, <em>' + esc(o.name.split(' ')[0]) + '.</em></h1>' +
       '<div class="ok-id">ORDER ' + esc(o.id) + '</div>' +
       '<p>Your order is placed. <b style="color:var(--ink)">One last step:</b> tap the button below to send your order details to us on WhatsApp. We will then confirm by phone or WhatsApp and get it on its way.</p>' +
       '<div class="co-card ok-card">' + itemsHTML(o.items) + '<div style="height:8px"></div>' + totalsHTML(o.totals, o.promo) +
