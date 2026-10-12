@@ -140,27 +140,25 @@
   /* One row per cart item. Order-level details (order id, payment, TrxID, area, promo, total)
      go into "notes" so the insert only uses columns that exist in the orders table. */
   function supabaseRows(o){
-    const notes = [
-      'Order ' + o.id,
-      'Area: ' + o.area,
-      'Payment: ' + PAYNAME[o.pay] + (o.trx ? ' (TrxID: ' + o.trx + ')' : ''),
-      o.promo ? 'Promo: ' + o.promo : '',
-      'Order total: ' + fmt(o.totals.total),
-      o.note ? 'Customer note: ' + o.note : ''
-    ].filter(Boolean).join(' | ');
-    return o.items.map(i => ({
-      customer_name: o.name,
+    return [{
+      order_id: o.id,
+      name: o.name,
       phone: o.phone,
       email: o.email || null,
-      city: o.district,
+      delivery_area: o.area,
+      district: o.district,
       address: o.address,
-      country: 'Bangladesh',
-      product_name: i.name,
-      product_variant: i.color + ' / ' + i.size,
-      quantity: i.qty,
-      notes: notes,
+      note: o.note || null,
+      payment_method: o.pay,
+      trx_id: o.trx || null,
+      promo_code: o.promo || null,
+      items: o.items.map(i => ({ name: i.name, color: i.color, size: i.size, qty: i.qty, price: i.price })),
+      subtotal: o.totals.subtotal,
+      delivery_fee: o.totals.shipping,
+      discount: o.totals.discount,
+      total: o.totals.total,
       status: 'pending'
-    }));
+    }];
   }
 
   $('coForm').addEventListener('change', e => { if (e.target.name === 'pay') syncTrx(); });
