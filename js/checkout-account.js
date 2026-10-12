@@ -41,7 +41,7 @@
   function payChoice(){ const r = document.querySelector('input[name="pay"]:checked'); return r ? r.value : 'cod'; }
   function renderPay(){
     const t = cartTotals(), cur = payChoice();
-    const tick = '<span class="pm-tick"></span>';
+    const tick = '';   /* tick mark removed: the whole option is clickable, the selected one is highlighted by CSS */
     const L = STORE.logos || {};
     const logo = (k, fb) => L[k] ? '<img src="' + esc(L[k]) + '" alt="">' : fb;
     const wm = k => k === 'bkash' ? '<span class="wm wm-bkash"><b>b</b><span>Kash</span></span>' : '<span class="wm wm-nagad">Nagad</span>';
@@ -148,6 +148,15 @@
     items:cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })
   };
 
+  /* ---- who is ordering? signed-in customers get the order linked to their account, guests get null ---- */
+  let uid = (window.TribAuth && window.TribAuth.user && window.TribAuth.user.id) || null;
+  if (!uid) {
+    try {
+      const s = await sb.auth.getSession();
+      uid = (s && s.data && s.data.session && s.data.session.user && s.data.session.user.id) || null;
+    } catch (err) { uid = null; }
+  }
+
   /* ---- SUPABASE INSERT ---- */
   const btn = $('coForm').querySelector('[type="submit"]');
   if (btn) btn.disabled = true;
@@ -155,6 +164,7 @@
     if (typeof sb === 'undefined') throw new Error('Supabase client (sb) load hoyni');
     const { error } = await sb.from('orders').insert({
       order_no:   order.id,
+      user_id:    uid,
       name:       order.name,
       phone:      order.phone,
       email:      order.email || null,
