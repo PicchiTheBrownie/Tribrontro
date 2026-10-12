@@ -148,3 +148,9 @@ nav .menu-btn{font-size:14px}
   .mf{width:100%;max-width:100%;box-sizing:border-box;transform:none;animation:none;padding:30px 16px 0}
   .mf-ribbon{margin:0 -16px}
 }
+/* ===== MANIFESTO: faka jayga final fix ===== */
+.mf .mf-glow{position:absolute!important;pointer-events:none}
+
+@media (max-width:900px){
+  .mf .mf-glow{display:none!important}
+}
