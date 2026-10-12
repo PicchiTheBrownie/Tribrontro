@@ -5,6 +5,7 @@
 var SUPABASE_URL = 'https://bhhqaarbhpslpwsfmxdl.supabase.co';
 var SUPABASE_ANON_KEY = 'sb_publishable_xFUgjtsBKKC5zYc4s1bRzg_FjfllZEJ';
 var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.TRIB_SB = sb;   /* customer-auth.js uses this same client, so login is shared with order saving */
 
 /* ---------- 1) Products load ---------- */
 async function loadProducts() {
@@ -50,12 +51,22 @@ async function loadProducts() {
      placeOrder({name, phone, address}, cartItems, total)
      placeOrder({name, phone, email, area, district, address, note, payment, trx_id,
                  order_no, subtotal, discount, shipping}, cartItems, total)
+   Guest orders save with user_id = null. If the customer is signed in, the order is
+   linked to their account so it shows in their "Recent orders".
    Returns { ok:true } or { ok:false, error:'...' } */
 async function placeOrder(customer, items, total) {
   var c = customer || {};
   function v(x) { return (x === undefined || x === '') ? null : x; }
+
+  var uid = null;
+  try {
+    var s = await sb.auth.getSession();
+    uid = (s && s.data && s.data.session && s.data.session.user && s.data.session.user.id) || null;
+  } catch (e) { uid = null; }   /* if anything goes wrong, just order as a guest */
+
   var row = {
     order_no: v(c.order_no),
+    user_id: uid,
     name: c.name,
     phone: c.phone,
     email: v(c.email),
