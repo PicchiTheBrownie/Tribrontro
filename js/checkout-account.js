@@ -24,10 +24,10 @@
   const profile = () => db.get('tb_profile', {});
 
   /* ---- order summary rows (shared) ---- */
-  function itemsHTML(items){
-    return items.map(i => {
+  function itemsHTML(items, removable){
+    return items.map((i, n) => {
       const p = PRODUCTS.find(x => x.name === i.name) || { tex:1 };
-      return '<div class="co-item"><div class="tex tex-' + p.tex + '"></div><div><b>' + esc(i.name) + '</b><small>' + esc(i.color) + ' / ' + esc(i.size) + ' × ' + i.qty + '</small></div><span>' + fmt(i.price * i.qty) + '</span></div>';
+      return '<div class="co-item"><div class="tex tex-' + p.tex + '"></div><div><b>' + esc(i.name) + '</b><small>' + esc(i.color) + ' / ' + esc(i.size) + ' × ' + i.qty + '</small>' + (removable ? '<button type="button" class="link-btn co-rm" data-rm="' + n + '" style="display:block;margin-top:6px">Remove</button>' : '') + '</div><span>' + fmt(i.price * i.qty) + '</span></div>';
     }).join('');
   }
   function totalsHTML(t, promoCode){
@@ -83,9 +83,10 @@
       : 'Only needed when you pay with bKash or Nagad.';
   }
   function renderCheckout(){
+    const areaRadio = document.querySelector('input[name="area"][value="' + shipArea + '"]'); if (areaRadio) areaRadio.checked = true;
     const t = cartTotals(), pr = promo && PROMOS[promo];
     $('coSide').innerHTML = '<h3>Your order</h3>' +
-      itemsHTML(cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })) +
+      itemsHTML(cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; }), true) +
       '<div style="height:10px"></div>' + totalsHTML(t, pr ? promo : '') +
       '<a class="link-btn co-edit" href="#/cart">← Edit cart</a>';
     const f = $('coForm');
@@ -114,7 +115,18 @@
     if (o.note) L.push('Note: ' + o.note);
     return L.join('\n');
   }
-  $('coForm').addEventListener('change', e => { if (e.target.name === 'pay') syncTrx(); });
+  /* remove a piece from the order summary at checkout */
+  $('coSide').addEventListener('click', e => {
+    const b = e.target.closest('[data-rm]'); if (!b) return;
+    const idx = Number(b.dataset.rm); if (!cart[idx]) return;
+    cart.splice(idx, 1); saveCart(); updateCartUI();
+    if (!cart.length) { showToast('Your cart is empty.', false); location.hash = '#/cart'; return; }
+    renderCheckout();
+  });
+  $('coForm').addEventListener('change', e => {
+    if (e.target.name === 'pay') syncTrx();
+    if (e.target.name === 'area') { setShipArea(e.target.value); renderCheckout(); }   /* delivery charge changes with the area */
+  });
   
   ;$('coForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -143,7 +155,7 @@
   const id = 'TB-' + String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '-' + (1000 + Math.floor(Math.random() * 9000));
   const order = {
     id, date:d.toISOString(), name, phone, email, district, address, pay, trx,
-    area:(document.querySelector('input[name="area"]:checked') || {}).value || 'Inside Dhaka',
+    area:(document.querySelector('input[name="area"]:checked') || {}).value || shipArea,
     note:$('co-note').value.trim(), promo:promo || '', totals:t,
     items:cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })
   };

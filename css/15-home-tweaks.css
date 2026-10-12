@@ -23,3 +23,40 @@
 .showcase-copy p{margin-left:auto;margin-right:auto}
 .showcase-copy .swatches,.showcase-copy .cta-row{justify-content:center}
 .showcase-copy .rail{justify-content:center}
+/* ===== HOME: MANIFESTO SECTION (portrait, purple) ===== */
+.mf{position:relative;overflow:hidden;margin:48px auto;width:100%;max-width:400px;padding:44px 24px 0;border-radius:24px;text-align:center;
+  background:radial-gradient(100% 70% at 50% 0%,rgba(106,27,154,.22),transparent 70%),#0b080d;
+  border:1px solid rgba(106,27,154,.3)}
+.mf::before{content:"";position:absolute;left:14%;right:14%;top:0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(192,138,224,.7),transparent)}
+.mf-glow{position:absolute;left:50%;top:-110px;width:300px;height:240px;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(106,27,154,.9) 0%,transparent 68%);opacity:.22;filter:blur(40px);pointer-events:none;animation:mfPulse 7s ease-in-out infinite}
+@keyframes mfPulse{0%,100%{opacity:.14;transform:translateX(-50%) scale(1)}50%{opacity:.28;transform:translateX(-50%) scale(1.08)}}
+.mf>*{position:relative}
+.mf .eyebrow{margin-bottom:14px;font-size:11px;opacity:.85;color:#C08AE0}
+.mf h2{font-size:clamp(26px,7vw,32px);line-height:1.15;font-weight:400;margin:0 auto 30px;max-width:11em}
+.mf h2 em{font-style:normal;font-weight:500;background:linear-gradient(90deg,#EFE8F3,#C08AE0);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.mf-grid{display:flex;flex-direction:column;gap:10px;margin:0 0 30px;text-align:left}
+.mf-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(239,232,243,.07);transition:border-color .3s ease,background .3s ease,transform .3s ease}
+.mf-card:hover{transform:translateY(-2px);border-color:rgba(192,138,224,.55);background:rgba(106,27,154,.14)}
+.mf-no{flex:none;font-size:12px;font-weight:700;letter-spacing:.14em;color:#C08AE0;margin:0}
+.mf-card h3{font-size:18px;margin:0 0 3px;line-height:1.2}
+.mf-card p{margin:0;opacity:.62;line-height:1.45;font-size:13.5px}
+.mf-ribbon{margin:0 -24px;padding:12px 0;overflow:hidden;
+  background:linear-gradient(90deg,transparent,rgba(106,27,154,.14),transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mf-track{display:flex;gap:18px;width:max-content;animation:mfScroll 30s linear infinite;white-space:nowrap}
+.mf-track span{font-weight:600;letter-spacing:.26em;font-size:11px;opacity:.7}
+.mf-track i{font-style:normal;font-size:10px;color:#C08AE0;opacity:.8}
+@keyframes mfScroll{to{transform:translateX(-50%)}}
+@media (max-width:480px){
+  .mf{max-width:100%;margin:36px 0;padding:36px 18px 0;border-radius:20px}
+  .mf-ribbon{margin:0 -18px}
+}
+@media (prefers-reduced-motion:reduce){.mf-glow,.mf-track{animation:none}}
+/* manifesto: spacing (halka kom) */
+/* manifesto: spacing (aro ektu niche) */
+.hero{padding-bottom:0;min-height:0}
+section:has(> .mf){padding-top:0;padding-bottom:0}
+.mf{margin-top:36px;margin-bottom:0}
+#collection{padding-top:56px}

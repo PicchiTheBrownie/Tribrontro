@@ -13,7 +13,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"TRIBRONTRO","description":"Premium streetwear from Bangladesh.","areaServed":"BD"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- STYLES: loaded in number order. Later files override earlier ones. -->
 <link rel="stylesheet" href="css/01-base.css">
 <link rel="stylesheet" href="css/02-navbar.css">
@@ -86,10 +86,33 @@
         </div>
       </div>
     </div>
-    <div class="scroll-cue"><i></i><span>SCROLL</span></div>
   </section>
 
   
+      <!-- ============================================================
+     HOME > MANIFESTO (compact statement + 3 pillars)
+     ============================================================ -->
+  <section class="wrap">
+    <div class="mf reveal">
+      <div class="mf-glow" aria-hidden="true"></div>
+      <div class="eyebrow">THE TRIBRONTRO WAY</div>
+      <h2>Made for the ones who <em>think in the dark.</em></h2>
+
+      <div class="mf-grid">
+        <div class="mf-card"><span class="mf-no">01</span><div><h3>Heavyweight</h3><p>Thick cotton that keeps its shape.</p></div></div>
+        <div class="mf-card"><span class="mf-no">02</span><div><h3>Boxy fit</h3><p>Dropped shoulders, relaxed body.</p></div></div>
+        <div class="mf-card"><span class="mf-no">03</span><div><h3>Small runs</h3><p>Limited drops, never restocked.</p></div></div>
+      </div>
+
+            <div class="mf-ribbon" aria-hidden="true">
+        <div class="mf-track">
+          <span>HEAVYWEIGHT</span><i>✦</i><span>BOXY FIT</span><i>✦</i><span>LIMITED DROPS</span><i>✦</i>
+          <span>HEAVYWEIGHT</span><i>✦</i><span>BOXY FIT</span><i>✦</i><span>LIMITED DROPS</span><i>✦</i>
+        </div>
+      </div>
+    </div>
+  </section>
+
 <!-- ============================================================
      HOME > THE NEW TRIBRONTRO (collection cards)
      ============================================================ -->
@@ -107,35 +130,24 @@
     </div>
   </section>
 
+
+
   <!-- ============================================================
      HOME > FEATURED PRODUCT + SWIPEABLE CAROUSEL
      ============================================================ -->
 
+  <!-- ============================================================
+     HOME > MORE TO EXPLORE (swipeable carousel)
+     ============================================================ -->
   <section class="wrap">
-    <div class="showcase reveal">
-      <div class="showcase-copy">
-        <div class="eyebrow">FEATURED — OVERSIZED TEE</div>
-        <h3>The After Dark Tee</h3>
-        <div class="swatches" style="margin-top:20px">
-          <div class="swatch" style="background:#18140F"></div>
-          <div class="swatch" style="background:var(--orange)"></div>
-          <div class="swatch" style="background:#F3EEE4"></div>
-        </div>
-        <p>Heavyweight cotton, dropped shoulder, boxy silhouette. Made to be lived in, cut to feel deliberate.</p>
-        <div class="cta-row" style="margin-top:0">
-          <button class="btn btn-solid js-add" data-id="3"><span>QUICK ADD</span></button>
-          <a class="btn btn-outline" href="#/shop"><span>VIEW DETAILS</span></a>
-        </div>
-        <div class="rail-head">
-          <span class="eyebrow">MORE TO EXPLORE</span>
-          <div class="rail-nav">
-            <button class="rail-btn" data-rail="-1" aria-label="Previous pieces" disabled>←</button>
-            <button class="rail-btn" data-rail="1" aria-label="Next pieces">→</button>
-          </div>
-        </div>
-        <div class="rail" id="homeRail"></div>
+    <div class="rail-head reveal">
+      <h2>MORE TO EXPLORE</h2>
+      <div class="rail-nav">
+        <button class="rail-btn" data-rail="-1" aria-label="Previous pieces" disabled>←</button>
+        <button class="rail-btn" data-rail="1" aria-label="Next pieces">→</button>
       </div>
     </div>
+    <div class="rail" id="homeRail"></div>
   </section>
 </main>
 
@@ -293,8 +305,8 @@
         <div class="co-card">
           <h3>Delivery</h3>
           <div class="opts">
-            <label class="opt"><input type="radio" name="area" value="Inside Dhaka" checked><span class="box"><b>Inside Dhaka</b><small>Arrives in 1–2 days</small></span></label>
-            <label class="opt"><input type="radio" name="area" value="Outside Dhaka"><span class="box"><b>Outside Dhaka</b><small>Arrives in 3–5 days</small></span></label>
+            <label class="opt"><input type="radio" name="area" value="Inside Rajshahi" checked><span class="box"><b>Inside Rajshahi</b><small>Arrives in 1–2 days</small></span></label>
+            <label class="opt"><input type="radio" name="area" value="Outside Rajshahi"><span class="box"><b>Outside Rajshahi</b><small>Arrives in 3–5 days</small></span></label>
           </div>
           <div class="field" style="margin-top:20px"><label for="co-district">District / area *</label><input id="co-district" placeholder="e.g. Rajshahi, Dhanmondi"><span class="err"></span></div>
           <div class="field"><label for="co-address">Full address *</label><textarea id="co-address" rows="3" placeholder="House, road, area, landmark"></textarea><span class="err"></span></div>
@@ -345,8 +357,8 @@
       <h2>Shipping &amp; delivery</h2>
       <p>We deliver across Bangladesh.</p>
       <ul>
-        <li>Inside Dhaka: 1–2 days. Outside Dhaka: 3–5 days.</li>
-        <li>Delivery charge is ৳80. Delivery is free on orders of ৳1,500 or more.</li>
+<li>Inside Rajshahi: 1–2 days. Outside Rajshahi: 3–5 days.</li>
+<li>Delivery charge is ৳60 inside Rajshahi and ৳120 outside Rajshahi. Delivery is free on orders of ৳1,500 or more.</li>
         <li>After you order, we confirm the details with you by phone or WhatsApp before we dispatch.</li>
         <li>Cash on delivery is available. Please keep the exact amount ready for the delivery person.</li>
       </ul>
@@ -366,8 +378,8 @@
       <h2>Frequently asked</h2>
       <details><summary>Do I need an account to order?</summary><p>No. You can check out as a guest. Just add your pieces to the cart and fill in your delivery details.</p></details>
       <details><summary>How do I pay?</summary><p>Cash on delivery, bKash or Nagad. For bKash and Nagad, send the amount to the number shown at checkout and enter the Transaction ID so we can match your payment.</p></details>
-      <details><summary>How long does delivery take?</summary><p>1–2 days inside Dhaka and 3–5 days elsewhere in Bangladesh.</p></details>
-      <details><summary>How much is delivery?</summary><p>৳80 per order. It is free when your order is ৳1,500 or more.</p></details>
+<details><summary>How long does delivery take?</summary><p>1–2 days inside Rajshahi and 3–5 days elsewhere in Bangladesh.</p></details>
+<details><summary>How much is delivery?</summary><p>৳60 inside Rajshahi and ৳120 outside Rajshahi. It is free when your order is ৳1,500 or more.</p></details>
       <details><summary>How do I choose my size?</summary><p>Open any piece and use the size guide. Between sizes? Go one up for a relaxed fit. Oversized pieces are cut boxy, so take your usual size.</p></details>
       <details><summary>How do I know my order is confirmed?</summary><p>After you place an order, tap the WhatsApp button on the confirmation page to send us your order details. We will then confirm by phone or WhatsApp.</p></details>
       <details><summary>Can I change or cancel my order?</summary><p>Message us on WhatsApp as soon as possible with your order number, before it is dispatched.</p></details>
@@ -452,7 +464,7 @@
      ============================================================ -->
 <section class="perks-strip wrap" id="perks">
   <div class="ps"><b>Free delivery</b><p>On every order of ৳1,500 or more.</p></div>
-  <div class="ps"><b>Fast shipping</b><p>1–2 days inside Dhaka, 3–5 days elsewhere.</p></div>
+  <div class="ps"><b>Fast shipping</b><p>1–2 days inside Rajshahi, 3–5 days elsewhere.</p></div>
   <div class="ps"><b>Pay your way</b><p>Cash on delivery, bKash, Nagad or card.</p></div>
 </section>
 

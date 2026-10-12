@@ -327,7 +327,7 @@
           '</div>' +
           '<div class="pd-acc">' +
             '<details open><summary>Size help</summary><p>Between sizes? Go one up for a relaxed fit. Oversized pieces are cut boxy, so take your usual size.</p></details>' +
-            '<details><summary>Delivery</summary><p>1–2 days inside Dhaka and 3–5 days elsewhere in Bangladesh. Delivery is ' + money(shipFee()) + ' per order and free on orders of ' + money(freeShip()) + ' or more.</p></details>' +
+            '<details><summary>Delivery</summary><p>1–2 days inside Rajshahi and 3–5 days elsewhere in Bangladesh. Delivery is ' + money(shipFee()) + ' per order and free on orders of ' + money(freeShip()) + ' or more.</p></details>' +
             '<details><summary>Returns &amp; exchange</summary><p>Wrong size? You can swap it within 7 days of delivery. The piece must be unworn and unwashed, with tags attached. <a href="#/help/returns" style="color:var(--orange-deep,#9B5BD6)">Read the full policy</a>.</p></details>' +
           '</div>' +
         '</div>' +

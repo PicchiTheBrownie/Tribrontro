@@ -1,40 +1,43 @@
 /* FILE: css/14-typography.css
-   Fonts (Cormorant Garamond + Inter) and text sizes
+   Fonts (Fredoka for headings + Quicksand for body) and text sizes
+   The font names themselves live in css/01-base.css (--font-display / --font-body)
+   and are loaded by the Google Fonts link in index.html.
    (Files load in number order; later files override earlier ones.) */
-/* ===== TYPOGRAPHY: Cormorant Garamond (display) + Inter (body) ===== */
-body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-size:14.5px;letter-spacing:0}
-h1,h2,h3{font-weight:500;letter-spacing:-0.01em;line-height:1.04}
-h1 em,h2 em,h3 em{font-weight:500}
-.hero-copy h1{font-size:clamp(56px,8vw,112px);font-weight:400;line-height:.98}
-.page-head h1{font-size:clamp(46px,6.6vw,84px);font-weight:400}
-.section-head h2{font-size:clamp(38px,4.6vw,62px)}
-.about h2{font-size:clamp(42px,5.6vw,68px);font-weight:400}
-.showcase-copy h3{font-size:46px}
-.soon-head h2{font-size:clamp(36px,4.4vw,56px)}
+/* ===== TYPOGRAPHY: Fredoka (display) + Quicksand (body) ===== */
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;font-size:19px;font-weight:500;letter-spacing:0}
+h1,h2,h3{font-weight:400;letter-spacing:0;line-height:1.1}
+/* Fredoka has no italic, so the gradient highlight words stay upright */
+h1 em,h2 em,h3 em{font-style:normal;font-weight:500}
+.hero-copy h1{font-size:clamp(48px,6vw,96px);font-weight:400;line-height:1.05}
+.page-head h1{font-size:clamp(42px,5vw,74px);font-weight:400}
+.section-head h2{font-size:clamp(36px,3.8vw,58px)}
+.about h2{font-size:clamp(40px,4.4vw,62px);font-weight:400}
+.showcase-copy h3{font-size:42px}
+.soon-head h2{font-size:clamp(36px,3.6vw,54px)}
 .soon-card h3{font-size:32px}
-.auth-side h2{font-size:40px}
-.cart-empty h2{font-size:clamp(34px,4.4vw,48px);font-weight:400}
+.auth-side h2{font-size:38px}
+.cart-empty h2{font-size:clamp(36px,3.6vw,48px);font-weight:400}
 .cart-more h3{font-size:34px;font-weight:400}
 .summary h3{font-size:30px}
-.qv-body h3{font-size:40px}
-.newsletter-inner h3{font-size:clamp(28px,3.4vw,36px)}
+.qv-body h3{font-size:38px}
+.newsletter-inner h3{font-size:clamp(30px,3vw,38px)}
 .empty h3{font-size:34px}
-.card-label b{font-size:28px;font-weight:500}
+.card-label b{font-size:29px;font-weight:500}
 .rail-card b,.p-name,.l-name{font-weight:500}
-.p-name{font-size:19px}
-.l-name{font-size:23px}
-.rail-card b{font-size:17px}
-.marquee-track{font-size:22px;font-style:italic;letter-spacing:.06em}
+.p-name{font-size:22px}
+.l-name{font-size:24px}
+.rail-card b{font-size:21px}
+.marquee-track{font-size:23px;font-style:normal;letter-spacing:.04em}
 .hero-copy p,.about p,.page-head p{line-height:1.75}
-.eyebrow{font-weight:500;letter-spacing:.2em;font-size:11px}
-.btn{font-weight:600;letter-spacing:.14em;font-size:11.5px}
+.eyebrow{font-weight:600;letter-spacing:.18em;font-size:15px}
+.btn{font-weight:600;letter-spacing:.12em;font-size:15.5px}
 .pill,.chip,.sort,.search{letter-spacing:.02em}
-/* prices and figures in the clean sans */
-.price-float,.qv-price,.l-price b,.sum-total b,.floating-tag b{font-family:var(--font-body);font-weight:500;letter-spacing:0}
-.qv-price{font-size:20px}
-.l-price b{font-size:17px}
-.sum-total b{font-size:30px}
-.price-float{font-size:14px}
+/* prices and figures in the body font */
+.price-float,.qv-price,.l-price b,.sum-total b,.floating-tag b{font-family:var(--font-body);font-weight:600;letter-spacing:0}
+.qv-price{font-size:26px}
+.l-price b{font-size:22px}
+.sum-total b{font-size:34px}
+.price-float{font-size:19px}
 /* wordmark: wide-tracked caps */
-nav .logo{font-family:var(--font-body);font-weight:600;font-size:13px;letter-spacing:.3em;margin-right:10px}
-.foot-grid .logo{font-family:var(--font-body);font-weight:600;font-size:15px;letter-spacing:.34em}
+nav .logo{font-family:var(--font-body);font-weight:700;font-size:18px;letter-spacing:.3em;margin-right:10px}
+.foot-grid .logo{font-family:var(--font-body);font-weight:700;font-size:20px;letter-spacing:.34em}

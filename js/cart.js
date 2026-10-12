@@ -1,15 +1,20 @@
 /* FILE: js/cart.js
    Cart: add/remove, totals, promo codes, free delivery, toast popup */
-const FREE_SHIP = 1500, SHIP_FEE = 80, MAX_QTY = 10;
+const FREE_SHIP = 1500, MAX_QTY = 10;
+/* Delivery charge by area. Change the numbers here and everything on the site follows. */
+const SHIP_FEES = { 'Inside Rajshahi':60, 'Outside Rajshahi':120 };
+const SHIP_FEE = SHIP_FEES['Inside Rajshahi'];   /* kept so older code that reads SHIP_FEE still works */
 const PROMOS = { TRIBE10:{ type:'pct', v:10, label:'10% off' }, WELCOME100:{ type:'flat', v:100, label:'৳100 off' } };
 const PAYMENTS = ['Cash on Delivery','bKash','Nagad'];
-let cart = [], promo = null, cartNote = '';
+let cart = [], promo = null, cartNote = '', shipArea = 'Inside Rajshahi';
 try {
   cart = (JSON.parse(localStorage.getItem('tb_cart') || '[]')).filter(i => PRODUCTS.some(p => p.id === i.id));
   promo = localStorage.getItem('tb_promo'); if (!PROMOS[promo]) promo = null;
   cartNote = localStorage.getItem('tb_note') || '';
+  const a = localStorage.getItem('tb_area'); if (SHIP_FEES[a] != null) shipArea = a;
 } catch (err) {}
-function saveCart(){ try { localStorage.setItem('tb_cart', JSON.stringify(cart)); localStorage.setItem('tb_promo', promo || ''); localStorage.setItem('tb_note', cartNote); } catch (err) {} }
+function saveCart(){ try { localStorage.setItem('tb_cart', JSON.stringify(cart)); localStorage.setItem('tb_promo', promo || ''); localStorage.setItem('tb_note', cartNote); localStorage.setItem('tb_area', shipArea); } catch (err) {} }
+function setShipArea(a){ if (SHIP_FEES[a] == null) return; shipArea = a; saveCart(); }
 const prod = id => PRODUCTS.find(p => p.id === id);
 const maxQty = p => Math.max(1, Math.min(MAX_QTY, p.stock));
 const cartQty = () => cart.reduce((n, i) => n + i.qty, 0);
@@ -17,7 +22,7 @@ function cartTotals(){
   const subtotal = cart.reduce((s, i) => s + prod(i.id).price * i.qty, 0);
   const pr = promo && PROMOS[promo];
   const discount = !pr ? 0 : pr.type === 'pct' ? Math.round(subtotal * pr.v / 100) : Math.min(pr.v, subtotal);
-  const shipping = !cart.length || subtotal >= FREE_SHIP ? 0 : SHIP_FEE;
+  const shipping = !cart.length || subtotal >= FREE_SHIP ? 0 : SHIP_FEES[shipArea];
   return { subtotal, discount, shipping, total: subtotal - discount + shipping };
 }
 /* qty is optional (defaults to 1), so every older call addToCart(id, size, color) still works */
@@ -65,6 +70,7 @@ function renderCart(){
   } else {
     const t = cartTotals(), left = FREE_SHIP - t.subtotal, pct = Math.min(100, Math.round(t.subtotal / FREE_SHIP * 100));
     const pr = promo && PROMOS[promo];
+    const areaOpts = Object.keys(SHIP_FEES).map(a => '<option value="' + a + '"' + (a === shipArea ? ' selected' : '') + '>' + a + ' · ' + fmt(SHIP_FEES[a]) + '</option>').join('');
     root.innerHTML = '<div class="cart-grid"><div>' +
       '<div class="ship-bar"><p>' + (t.subtotal >= FREE_SHIP ? '<b>✓ Free delivery unlocked.</b> Your order ships on us.' : 'Add <b>' + fmt(left) + '</b> more for free delivery.') + '</p><div class="bar"><i style="width:' + pct + '%"></i></div></div>' +
       '<div class="cart-top"><div class="eyebrow"><b>' + cartQty() + '</b> ' + (cartQty() === 1 ? 'item' : 'items') + ' in your cart</div><button class="link-btn" data-act="clear">Clear cart</button></div>' +
@@ -73,6 +79,7 @@ function renderCart(){
     '</div>' +
     '<aside class="summary"><h3>Order summary</h3>' +
       '<div class="sum-row"><span>Subtotal</span><b>' + fmt(t.subtotal) + '</b></div>' +
+      '<div class="sum-row"><span>Delivery area</span><select class="size-sel" data-act="area" aria-label="Delivery area">' + areaOpts + '</select></div>' +
       '<div class="sum-row"><span>Delivery</span><b>' + (t.shipping ? fmt(t.shipping) : 'Free') + '</b></div>' +
       '<div class="sum-row disc"><span>Discount' + (pr ? ' · ' + promo : '') + '</span><b>' + (t.discount ? '−' + fmt(t.discount) : '—') + '</b></div>' +
       '<div class="sum-total"><span>TOTAL</span><b>' + fmt(t.total) + '</b></div>' +
@@ -82,7 +89,7 @@ function renderCart(){
       '<div class="sum-actions"><button class="btn btn-solid" data-act="checkout"><span>CHECKOUT</span></button></div>' +
       '<div class="cart-pay">' + PAYMENTS.map(x => '<span>' + x + '</span>').join('') + '</div>' +
       '<div class="perks">' +
-        '<div class="perk"><i>01</i><div><b>Delivery</b><br>1–2 days inside Dhaka, 3–5 days elsewhere. Free on orders of ' + fmt(FREE_SHIP) + ' or more, otherwise ' + fmt(SHIP_FEE) + '.</div></div>' +
+        '<div class="perk"><i>01</i><div><b>Delivery</b><br>1–2 days inside Rajshahi (' + fmt(SHIP_FEES['Inside Rajshahi']) + '), 3–5 days outside (' + fmt(SHIP_FEES['Outside Rajshahi']) + '). Free on orders of ' + fmt(FREE_SHIP) + ' or more.</div></div>' +
         '<div class="perk"><i>02</i><div><b>Easy exchange</b><br>Wrong size? Swap it within 7 days of delivery.</div></div>' +
         '<div class="perk"><i>03</i><div><b>Pay your way</b><br>Cash on delivery, bKash, Nagad .</div></div>' +
       '</div>' +
@@ -116,7 +123,9 @@ function renderCart(){
     saveCart(); updateCartUI();
   });
   page.addEventListener('change', e => {
-    if (e.target.dataset.act !== 'size') return;
+    const act = e.target.dataset.act;
+    if (act === 'area') { setShipArea(e.target.value); updateCartUI(); return; }
+    if (act !== 'size') return;
     const row = e.target.closest('.line'), i = cart[Number(row.dataset.i)], size = e.target.value;
     const twin = cart.find(x => x !== i && x.id === i.id && x.color === i.color && x.size === size);
     if (twin) { twin.qty = Math.min(twin.qty + i.qty, maxQty(prod(i.id))); cart.splice(cart.indexOf(i), 1); } else i.size = size;

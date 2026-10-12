@@ -25,7 +25,7 @@
         '<div class="qv-label">Size<b>' + (qv.size || 'Choose one') + '</b></div><div class="qv-opts" id="qvSizes">' + sz + '</div>' +
         '<details class="qv-guide"><summary>Size guide ▾</summary><table><tr><th>Size</th><th>Chest</th><th>Length</th></tr>' + rows + '</table><small>Measurements are in inches, taken flat. Between sizes? Go one up for a relaxed fit.</small></details>' +
         '<details class="qv-guide"><summary>Fabric &amp; care ▾</summary><p class="qv-note" style="margin-top:8px">Cotton tee. Wash cold, inside out. Do not bleach. Dry in shade.</p></details>' +
-        '<details class="qv-guide"><summary>Delivery &amp; exchange ▾</summary><p class="qv-note" style="margin-top:8px">1–2 days inside Dhaka, 3–5 days elsewhere. Free delivery on orders of ৳1,500 or more. Exchange within 7 days of delivery.</p></details>' +
+        '<details class="qv-guide"><summary>Delivery &amp; exchange ▾</summary><p class="qv-note" style="margin-top:8px">1–2 days inside Rajshahi, 3–5 days elsewhere. Free delivery on orders of ৳1,500 or more. Exchange within 7 days of delivery.</p></details>' +
         (!out && p.stock <= 5 ? '<div class="qv-stock">Only ' + p.stock + ' left</div>' : '') +
         '<button class="btn btn-solid qv-add" data-qv="add"' + (out ? ' disabled' : '') + '><span>' + btn + '</span></button>' +
       '</div>';
