@@ -420,15 +420,44 @@
   }, true);
 
   /* ---------- checkout / profile helpers (only fill EMPTY fields, never overwrite typing) ---------- */
-  function fill(id, val) { var el = document.getElementById(id); if (el && val && !el.value) el.value = val; }
+  /* Signed in: account details fill the checkout form (and replace anything auto-filled from this device).
+     Anything the customer types by hand in this visit is never overwritten. */
+  function fill(id, val) {
+    var el = document.getElementById(id); if (!el || !val) return;
+    if (!el.value) el.removeAttribute("data-tb-dirty");        /* form was cleared (e.g. after an order): allow auto-fill again */
+    if (el.getAttribute("data-tb-dirty") || el.value === val) return;
+    el.value = val; el.setAttribute("data-tb-filled", "1");
+    try { el.dispatchEvent(new Event("input", { bubbles: true })); } catch (e) {}
+  }
+  function clearFilled() {                                      /* signed out: remove the details we filled in */
+    var els = document.querySelectorAll("[data-tb-filled]");
+    for (var i = 0; i < els.length; i++) {
+      if (!els[i].getAttribute("data-tb-dirty")) els[i].value = "";
+      els[i].removeAttribute("data-tb-filled");
+    }
+  }
   function prefillForms() {
-    if (!A.user) return;
-    var p = A.profile || {}, name = p.name || (A.user.user_metadata && A.user.user_metadata.name) || "", phone = p.phone || (A.user.user_metadata && A.user.user_metadata.phone) || "";
+    if (!A.user) { clearFilled(); return; }
+    var p = A.profile || {}, md = A.user.user_metadata || {}, name = p.name || md.name || "", phone = p.phone || md.phone || "";
     ["co", "pf"].forEach(function (k) {
       fill(k + "-name", name); fill(k + "-phone", phone); fill(k + "-email", A.user.email);
       fill(k + "-district", p.district); fill(k + "-address", p.address);
     });
   }
+  document.addEventListener("input", function (e) {              /* remember what the customer typed themselves */
+    var t = e.target; if (e.isTrusted && t && /^(co|pf)-/.test(t.id || "")) t.setAttribute("data-tb-dirty", "1");
+  }, true);
+  window.addEventListener("hashchange", function () {            /* opening checkout: fill again after the page has drawn */
+    if (/^#\/checkout/.test(location.hash)) { setTimeout(prefillForms, 0); setTimeout(prefillForms, 400); }
+  });
+  document.addEventListener("submit", function (e) {             /* placing an order also saves the details to the account */
+    if (!e.target || e.target.id !== "coForm" || !A.user) return;
+    var g = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; };
+    var save = document.getElementById("co-save");
+    if (save && !save.checked) return;
+    if (!g("co-name") || !g("co-phone") || !g("co-address")) return;
+    A.saveProfile({ name: g("co-name"), phone: g("co-phone"), district: g("co-district"), address: g("co-address") });
+  }, true);
   function updateCheckoutHint() {
     var head = document.querySelector("#page-checkout .page-head");
     var old = document.getElementById("tbCoHint");
