@@ -90,8 +90,6 @@
   .opts{grid-template-columns:1fr!important}
   .field label{font-size:13px}
   .field input,.field textarea,.field select,.sf-form input{font-size:16px!important}
-  .summary h3{font-size:20px!important}
-  .sum-total b{font-size:24px!important}
   .co-fine{font-size:12px}
 
   /* HELP */
@@ -126,4 +124,50 @@
   /* floating chat + toast */
   .fab{right:12px;bottom:12px}
   .toast{max-width:calc(100% - 24px);font-size:13px}
+}
+
+/* ===== ORDER SUMMARY: phone fix (exact classes) ===== */
+@media (max-width:900px){
+  .summary,.co-side{
+    position:static!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:0!important;
+    box-sizing:border-box;
+  }
+}
+
+@media (max-width:600px){
+  .summary,.co-side{padding:18px 16px!important;border-radius:18px!important}
+  .summary h3{font-size:20px!important;margin:0 0 14px!important}
+
+  /* each product row: picture | name + details | price */
+  .co-item{
+    display:grid!important;
+    grid-template-columns:56px minmax(0,1fr) auto!important;
+    align-items:center;
+    gap:12px!important;
+    padding:10px 0!important;
+  }
+  .co-item .tex{
+    width:56px!important;height:68px!important;
+    border-radius:12px!important;
+    box-shadow:none!important;
+    transform:none!important;
+  }
+  .co-item b{display:block;font-size:14px!important;line-height:1.3;word-break:break-word}
+  .co-item small{display:block;font-size:12px!important;margin-top:2px;opacity:.7}
+  .co-item > span{font-size:14px!important;font-weight:600;white-space:nowrap}
+  .co-rm{font-size:12px!important;margin-top:4px!important}
+
+  /* subtotal / delivery / discount */
+  .sum-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:13.5px!important;padding:5px 0}
+  .sum-row b{font-size:14px!important}
+
+  /* total */
+  .sum-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:14px!important;margin-top:8px}
+  .sum-total span{font-size:13px!important;letter-spacing:.1em}
+  .sum-total b{font-size:24px!important}
+
+  .co-edit{display:inline-block;margin-top:14px;font-size:13px!important}
 }
