@@ -90,3 +90,135 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cc b{display:block;margin:10px 0 14px;font-size:14.5px;font-weight:500;word-break:break-word}
 .cc span{font-size:12.5px;color:var(--orange-deep);font-weight:600}
 @media (max-width:700px){.contact-cards{grid-template-columns:1fr}}
+/* ===== ALIGNMENT FIXES (desktop + mobile) ===== */
+
+/* order summary rows */
+.co-item{grid-template-columns:58px minmax(0,1fr) auto}
+.co-item b{line-height:1.25;word-break:break-word}
+.co-item small{display:block;margin-top:3px}
+.co-item > span{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+.co-item .co-rm{text-align:left}
+
+/* totals (defined elsewhere, made safe here) */
+.sum-row,.sum-total{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.sum-row span,.sum-total span{min-width:0}
+.sum-row b,.sum-total b{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sum-row b.addr{white-space:normal;max-width:60%;word-break:break-word}
+
+/* payment options (defined elsewhere, made safe here) */
+.pm-head{display:flex;align-items:center;gap:12px;cursor:pointer}
+.pm-badge{flex:0 0 44px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pm-badge svg{width:24px;height:24px}
+.pm-badge img{max-width:100%;max-height:100%;object-fit:contain}
+.pm-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pm-tag,.pm-soon{flex:0 0 auto;white-space:nowrap;margin-left:auto}
+.pm-steps li{line-height:1.55}
+.copyrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.copyrow b{min-width:0;word-break:break-all}
+.copyrow button{flex:0 0 auto;white-space:nowrap}
+
+/* account orders */
+.ord-top > div,.ord-line > span:first-child{min-width:0;word-break:break-word}
+.ord-line > span:last-child,.ord-bot b{white-space:nowrap;text-align:right}
+.ord-bot{justify-content:space-between}
+
+/* success */
+.ok-actions .btn{width:100%;justify-content:center;text-align:center}
+
+/* help contact cards: equal height, tidy text */
+.cc{height:100%}
+
+/* tablet */
+@media (max-width:980px){
+  .co-side{position:static}
+}
+
+/* mobile */
+@media (max-width:600px){
+  .co-grid{gap:22px;padding-bottom:70px}
+  .co-card{padding:20px 16px;border-radius:20px}
+  .co-card h3{font-size:24px;margin-bottom:16px}
+  .co-item{grid-template-columns:48px minmax(0,1fr) auto;gap:10px}
+  .co-item .tex{height:60px;border-radius:10px}
+  .co-item b{font-size:16px}
+
+  .pm-head{padding:12px;gap:10px;flex-wrap:wrap}
+  .pm-badge{flex-basis:40px;width:40px;height:40px}
+  .pm-t{flex:1 1 calc(100% - 60px)}
+  .pm-tag,.pm-soon{margin-left:50px;font-size:10px}
+  .pm-body{padding:0 12px 14px}
+  .copyrow button{padding:8px 12px}
+
+  .paybox{padding:14px 14px}
+
+  .ok-wrap{padding:120px 0 70px}
+  .ok-card{margin:24px 0 20px}
+
+  .ord{padding:18px 16px;border-radius:18px}
+  .ord-top,.ord-bot{flex-wrap:wrap}
+  .ord-line{gap:10px}
+  .sum-row b.addr{max-width:55%}
+
+  .acct-actions{gap:14px}
+  .acct-empty{padding:36px 10px 44px}
+  .acct-empty h3{font-size:26px}
+
+  .hsec{padding-top:36px;margin-top:28px}
+  .faq summary{font-size:14.5px}
+}
+/* ===== FORM FIELD ALIGNMENT (contact + delivery) ===== */
+.field{margin-bottom:16px;min-width:0}
+.field label{display:block;margin-bottom:8px;line-height:1.3;font-size:12.5px}
+
+.field input,
+.field textarea,
+.field select{
+  display:block;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  padding:14px 16px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#030105;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:14.5px;
+  line-height:1.4;
+  margin:0;
+}
+.field input,.field select{height:50px}
+.field textarea{min-height:100px;height:auto;resize:vertical}
+.field select{
+  appearance:none;-webkit-appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);
+  background-position:calc(100% - 20px) 22px,calc(100% - 15px) 22px;
+  background-size:5px 5px;background-repeat:no-repeat;
+  padding-right:38px;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--orange)}
+.field .err{min-height:0;margin-top:6px;line-height:1.4}
+
+/* two fields side by side: same top line, equal columns */
+.field-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;align-items:start}
+.field-row .field{margin-bottom:16px}
+
+/* delivery area options (Dhaka / outside etc.): equal height, aligned */
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch;margin-bottom:16px}
+.opt .box{height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+
+/* checkbox row */
+.chk{align-items:center}
+.chk input{flex:0 0 17px;margin:0}
+
+/* help page contact cards */
+.contact-cards{align-items:stretch}
+.cc{display:flex;flex-direction:column;height:100%;box-sizing:border-box}
+.cc span{margin-top:auto}
+
+@media (max-width:560px){
+  .field-row,.opts{grid-template-columns:1fr}
+  .field-row .field{margin-bottom:16px}
+  .field input,.field select{height:48px;font-size:16px} /* 16px stops iPhone zoom-in */
+  .field textarea{font-size:16px}
+}
