@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "html": "node build-html.js",
+    "html:watch": "node build-html.js --watch",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",

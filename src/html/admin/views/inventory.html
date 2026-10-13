@@ -1,0 +1,14 @@
+    <!-- Inventory -->
+    <section id="v-inventory" class="hidden">
+      <div class="head"><h2>Inventory</h2><button class="btn ghost refresh" aria-label="Refresh data"><svg class="ic"><use href="#i-refresh"/></svg>Refresh</button></div>
+      <div class="stats c4" id="invStats"></div>
+      <div class="panel">
+        <div class="tools">
+          <div class="withic" style="flex:1;min-width:220px"><svg class="ic"><use href="#i-search"/></svg><input class="field" id="iq" type="search" placeholder="Search products" aria-label="Search inventory"></div>
+          <select class="field" id="istock" aria-label="Filter by stock level">
+            <option value="">All stock levels</option><option value="low">Low stock</option><option value="out">Out of stock</option>
+          </select>
+        </div>
+        <div class="scroll" id="invList"></div>
+      </div>
+    </section>

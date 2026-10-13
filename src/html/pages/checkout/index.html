@@ -1,0 +1,23 @@
+<!-- ============================================================
+     PAGE: CHECKOUT (details + payment methods)
+     ============================================================ -->
+<main class="page" id="page-checkout">
+  <div class="wrap page-head">
+    <div class="eyebrow">CHECKOUT</div>
+    <h1>Almost <em>there.</em></h1>
+    <p>No account needed. Fill in your details and we will confirm your order.</p>
+  </div>
+  <div class="wrap">
+    <form class="co-grid" id="coForm" novalidate>
+      <div class="co-main">
+<!-- @include pages/checkout/contact.html -->
+<!-- @include pages/checkout/delivery.html -->
+<!-- @include pages/checkout/payment.html -->
+        <label class="chk"><input type="checkbox" id="co-save" checked><span>Save these details on this device for next time</span></label>
+        <button class="btn btn-solid btn-block" type="submit" id="coSubmit"><span>PLACE ORDER</span></button>
+        <p class="co-fine">By placing your order you agree to our <a href="#/help/terms">Terms</a> and <a href="#/help/returns">Returns &amp; exchange</a> policy.</p>
+      </div>
+      <aside class="summary co-side" id="coSide"></aside>
+    </form>
+  </div>
+</main>

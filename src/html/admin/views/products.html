@@ -1,0 +1,23 @@
+    <!-- Products & Categories -->
+    <section id="v-products" class="hidden">
+      <div class="head"><h2>Products &amp; Categories</h2><button class="btn ghost refresh" aria-label="Refresh data"><svg class="ic"><use href="#i-refresh"/></svg>Refresh</button></div>
+      <div class="panel" style="margin-top:0">
+        <h3><svg class="ic"><use href="#i-tag"/></svg>Categories</h3>
+        <div class="formrow">
+          <input class="field" id="catName" placeholder="New category name" aria-label="Category name" maxlength="60">
+          <button class="btn" id="addCat" style="flex:0"><svg class="ic"><use href="#i-plus"/></svg>Add category</button>
+        </div>
+        <div class="scroll" id="catList"></div>
+      </div>
+      <div class="panel">
+        <h3><svg class="ic"><use href="#i-bag"/></svg>Products</h3>
+        <div class="formrow">
+          <input class="field" id="pName" placeholder="Product name" aria-label="Product name" style="flex:2;min-width:200px">
+          <select class="field" id="pCat" aria-label="Category"></select>
+          <input class="field" id="pPrice" type="number" min="0" placeholder="Price ৳" aria-label="Price">
+          <input class="field" id="pStock" type="number" min="0" placeholder="Stock" aria-label="Stock">
+          <button class="btn" id="addProd" style="flex:0"><svg class="ic"><use href="#i-plus"/></svg>Add product</button>
+        </div>
+        <div class="scroll" id="prodList"></div>
+      </div>
+    </section>

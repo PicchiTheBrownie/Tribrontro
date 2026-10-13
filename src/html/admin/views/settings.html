@@ -1,0 +1,20 @@
+    <!-- Settings & Admin Roles -->
+    <section id="v-settings" class="hidden">
+      <h2>Settings &amp; Admin Roles</h2>
+      <div class="panel set" style="margin-top:0">
+        <h3><svg class="ic"><use href="#i-sliders"/></svg>Application</h3>
+        <label for="nm" style="margin-top:0">Application name</label>
+        <div class="withic"><svg class="ic"><use href="#i-pencil"/></svg><input class="field" id="nm" maxlength="40"></div>
+        <button class="btn refresh" id="saveNm" style="margin-top:20px"><svg class="ic"><use href="#i-ok"/></svg>Save name</button>
+      </div>
+      <div class="panel">
+        <h3><svg class="ic"><use href="#i-shield"/></svg>Admin roles</h3>
+        <p class="me-line">Signed in as <b id="me">—</b></p>
+        <div class="formrow">
+          <input class="field" id="aEmail" type="email" placeholder="Admin email" aria-label="Admin email" style="flex:2;min-width:220px">
+          <select class="field" id="aRole" aria-label="Role"><option value="admin">admin</option><option value="manager">manager</option><option value="staff" selected>staff</option></select>
+          <button class="btn" id="addAdmin" style="flex:0"><svg class="ic"><use href="#i-plus"/></svg>Add admin</button>
+        </div>
+        <div class="scroll" id="adminList"></div>
+      </div>
+    </section>

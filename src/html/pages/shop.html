@@ -1,0 +1,31 @@
+<!-- ============================================================
+     PAGE: SHOP
+     ============================================================ -->
+<main class="page" id="page-shop">
+  <div class="wrap page-head">
+    <div class="eyebrow">SHOP ALL</div>
+    <h1>Everything, right now.</h1>
+  </div>
+  <div class="wrap">
+    <div class="filter-bar">
+      <div class="cat-pills" id="shopCats"></div>
+      <div class="shop-tools">
+        <input class="search" id="shopSearch" type="search" placeholder="Search tees…" aria-label="Search products" autocomplete="off">
+        <button class="pill" id="filterToggle" aria-expanded="false">Filters</button>
+        <select class="sort" id="sortSel" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="new">Newest first</option>
+          <option value="price-asc">Price: low to high</option>
+          <option value="price-desc">Price: high to low</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-panel" id="filterPanel"></div>
+    <div class="shop-meta">
+      <span id="resultCount"></span>
+      <button class="link-btn" id="clearFilters" hidden>Clear all filters</button>
+    </div>
+    <div class="grid" id="shopGrid"></div>
+    <div class="empty" id="shopEmpty"><h3>Nothing matches yet.</h3><p>Try removing a filter or two.</p></div>
+  </div>
+</main>

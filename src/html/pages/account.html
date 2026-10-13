@@ -1,0 +1,35 @@
+<!-- ============================================================
+     PAGE: MY ACCOUNT (orders, saved pieces, details)
+     ============================================================ -->
+<main class="page" id="page-profile">
+  <div class="wrap page-head">
+    <div class="eyebrow">MY ACCOUNT</div>
+    <h1>Your <em>space.</em></h1>
+    <p>No password needed. Your orders, saved pieces and details are kept on this device.</p>
+  </div>
+  <div class="wrap acct">
+    <div class="cat-pills acct-tabs">
+      <button class="pill active" data-acct="orders">ORDERS</button>
+      <button class="pill" data-acct="saved">Wishlist</button>
+    </div>
+    <div class="acct-panel" id="acct-orders"></div>
+    <div class="acct-panel" id="acct-saved" hidden></div>
+    <div class="acct-panel" id="acct-details" hidden>
+      <form class="co-card acct-form" id="pfForm" novalidate>
+        <h3>Saved details</h3>
+        <p class="co-fine" style="margin:0 0 20px">We use these to fill in checkout for you. They stay on this device only.</p>
+        <div class="field-row">
+          <div class="field"><label for="pf-name">Full name</label><input id="pf-name" autocomplete="name" placeholder="Your name"></div>
+          <div class="field"><label for="pf-phone">Phone</label><input id="pf-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX"></div>
+        </div>
+        <div class="field"><label for="pf-email">Email</label><input id="pf-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="field"><label for="pf-district">District / area</label><input id="pf-district" placeholder="e.g. Rajshahi, Dhanmondi"></div>
+        <div class="field"><label for="pf-address">Full address</label><textarea id="pf-address" rows="3" placeholder="House, road, area"></textarea></div>
+        <div class="acct-actions">
+          <button class="btn btn-solid" type="submit"><span>SAVE DETAILS</span></button>
+          <button class="link-btn" type="button" id="pfClear">Clear my saved details</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
