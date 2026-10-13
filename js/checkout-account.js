@@ -127,89 +127,88 @@
     if (e.target.name === 'pay') syncTrx();
     if (e.target.name === 'area') { setShipArea(e.target.value); renderCheckout(); }   /* delivery charge changes with the area */
   });
-  
-  ;$('coForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  console.log('SUBMIT HANDLER RUNNING');
-  if (!cart.length) { location.hash = '#/cart'; return; }
 
-  const name = $('co-name').value.trim(), phone = normPhone($('co-phone').value), email = $('co-email').value.trim();
-  const district = $('co-district').value.trim(), address = $('co-address').value.trim(), pay = payChoice();
-  const trxEl = $('co-trx'), trx = pay !== 'cod' && trxEl ? trxEl.value.trim() : '';
-  const checks = [
-    setErr('co-name', name.length < 2 ? 'Please enter your full name.' : ''),
-    setErr('co-phone', /^01[3-9]\d{8}$/.test(phone) ? '' : 'Enter a valid mobile number, like 01XXXXXXXXX.'),
-    setErr('co-email', email && !/^\S+@\S+\.\S+$/.test(email) ? 'That email does not look right.' : ''),
-    setErr('co-district', district.length < 2 ? 'Please enter your district or area.' : ''),
-    setErr('co-address', address.length < 8 ? 'Please enter your full address.' : '')
-  ];
-  if (pay !== 'cod') checks.push(setErr('co-trx', trx.length < 6 ? 'Enter the Transaction ID from your payment.' : ''));
-  if (checks.includes(false)) {
-    const bad = document.querySelector('#coForm .field.bad');
-    if (bad) bad.scrollIntoView({ behavior:'smooth', block:'center' });
-    showToast('Please fix the highlighted fields.', false); return;
-  }
+  $('coForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!cart.length) { location.hash = '#/cart'; return; }
 
-  const t = cartTotals();
-  const d = new Date();
-  const id = 'TB-' + String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '-' + (1000 + Math.floor(Math.random() * 9000));
-  const order = {
-    id, date:d.toISOString(), name, phone, email, district, address, pay, trx,
-    area:(document.querySelector('input[name="area"]:checked') || {}).value || shipArea,
-    note:$('co-note').value.trim(), promo:promo || '', totals:t,
-    items:cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })
-  };
+    const name = $('co-name').value.trim(), phone = normPhone($('co-phone').value), email = $('co-email').value.trim();
+    const district = $('co-district').value.trim(), address = $('co-address').value.trim(), pay = payChoice();
+    const trxEl = $('co-trx'), trx = pay !== 'cod' && trxEl ? trxEl.value.trim() : '';
+    const checks = [
+      setErr('co-name', name.length < 2 ? 'Please enter your full name.' : ''),
+      setErr('co-phone', /^01[3-9]\d{8}$/.test(phone) ? '' : 'Enter a valid mobile number, like 01XXXXXXXXX.'),
+      setErr('co-email', email && !/^\S+@\S+\.\S+$/.test(email) ? 'That email does not look right.' : ''),
+      setErr('co-district', district.length < 2 ? 'Please enter your district or area.' : ''),
+      setErr('co-address', address.length < 8 ? 'Please enter your full address.' : '')
+    ];
+    if (pay !== 'cod') checks.push(setErr('co-trx', trx.length < 6 ? 'Enter the Transaction ID from your payment.' : ''));
+    if (checks.includes(false)) {
+      const bad = document.querySelector('#coForm .field.bad');
+      if (bad) bad.scrollIntoView({ behavior:'smooth', block:'center' });
+      showToast('Please fix the highlighted fields.', false); return;
+    }
 
-  /* ---- who is ordering? signed-in customers get the order linked to their account, guests get null ---- */
-  let uid = (window.TribAuth && window.TribAuth.user && window.TribAuth.user.id) || null;
-  if (!uid) {
+    const t = cartTotals();
+    const d = new Date();
+    const id = 'TB-' + String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '-' + (1000 + Math.floor(Math.random() * 9000));
+    const order = {
+      id, date:d.toISOString(), name, phone, email, district, address, pay, trx,
+      area:(document.querySelector('input[name="area"]:checked') || {}).value || shipArea,
+      note:$('co-note').value.trim(), promo:promo || '', totals:t,
+      items:cart.map(i => { const p = prod(i.id); return { name:p.name, color:i.color, size:i.size, qty:i.qty, price:p.price }; })
+    };
+
+    /* ---- who is ordering? signed-in customers get the order linked to their account, guests get null ---- */
+    let uid = (window.TribAuth && window.TribAuth.user && window.TribAuth.user.id) || null;
+    if (!uid) {
+      try {
+        const s = await sb.auth.getSession();
+        uid = (s && s.data && s.data.session && s.data.session.user && s.data.session.user.id) || null;
+      } catch (err) { uid = null; }
+    }
+
+    /* ---- SUPABASE INSERT ---- */
+    const btn = $('coForm').querySelector('[type="submit"]');
+    if (btn) btn.disabled = true;
     try {
-      const s = await sb.auth.getSession();
-      uid = (s && s.data && s.data.session && s.data.session.user && s.data.session.user.id) || null;
-    } catch (err) { uid = null; }
-  }
-
-  /* ---- SUPABASE INSERT ---- */
-  const btn = $('coForm').querySelector('[type="submit"]');
-  if (btn) btn.disabled = true;
-  try {
-    if (typeof sb === 'undefined') throw new Error('Supabase client (sb) load hoyni');
-    const { error } = await sb.from('orders').insert({
-      order_no:   order.id,
-      user_id:    uid,
-      name:       order.name,
-      phone:      order.phone,
-      email:      order.email || null,
-      district:   order.district,
-      address:    order.address,
-      area:       order.area,
-      note:       order.note || null,
-      pay_method: order.pay,
-      trx_id:     order.trx || null,
-      promo:      order.promo || null,
-      subtotal:   order.totals.subtotal,
-      shipping:   order.totals.shipping,
-      discount:   order.totals.discount,
-      total:      order.totals.total,
-      items:      order.items
-    });
-    if (error) throw error;
-  } catch (err) {
-    console.error('SUPABASE ERROR:', err);
-    showToast(err && err.code === '23505' ? 'Ei TrxID ager e use kora hoyeche.' : 'Error: ' + ((err && err.message) || 'order pathano jayni'), false);
+      if (typeof sb === 'undefined') throw new Error('Could not connect to the store. Please refresh and try again.');
+      const { error } = await sb.from('orders').insert({
+        order_no:   order.id,
+        user_id:    uid,
+        name:       order.name,
+        phone:      order.phone,
+        email:      order.email || null,
+        district:   order.district,
+        address:    order.address,
+        area:       order.area,
+        note:       order.note || null,
+        pay_method: order.pay,
+        trx_id:     order.trx || null,
+        promo:      order.promo || null,
+        subtotal:   order.totals.subtotal,
+        shipping:   order.totals.shipping,
+        discount:   order.totals.discount,
+        total:      order.totals.total,
+        items:      order.items
+      });
+      if (error) throw error;
+    } catch (err) {
+      console.error('SUPABASE ERROR:', err);
+      showToast(err && err.code === '23505' ? 'This TrxID has already been used.' : 'Error: ' + ((err && err.message) || 'Could not place your order. Please try again.'), false);
+      if (btn) btn.disabled = false;
+      return;
+    }
     if (btn) btn.disabled = false;
-    return;
-  }
-  if (btn) btn.disabled = false;
 
-  /* ---- local save + success ---- */
-  const all = db.get('tb_orders', []); all.unshift(order); db.set('tb_orders', all.slice(0, 20));
-  db.set('tb_last', id);
-  if ($('co-save').checked) db.set('tb_profile', { name, phone, email, district, address });
-  cart = []; promo = null; cartNote = ''; saveCart(); updateCartUI();
-  $('coForm').dataset.filled = '';
-  location.hash = '#/success';
-});
+    /* ---- local save + success ---- */
+    const all = db.get('tb_orders', []); all.unshift(order); db.set('tb_orders', all.slice(0, 20));
+    db.set('tb_last', id);
+    if ($('co-save').checked) db.set('tb_profile', { name, phone, email, district, address });
+    cart = []; promo = null; cartNote = ''; saveCart(); updateCartUI();
+    $('coForm').dataset.filled = '';
+    location.hash = '#/success';
+  });
 
   /* ================= SUCCESS ================= */
   function renderSuccess(){
@@ -222,7 +221,7 @@
       '<p>Your order is placed. <b style="color:var(--ink)">One last step:</b> tap the button below to send your order details to us on WhatsApp. We will then confirm by phone or WhatsApp and get it on its way.</p>' +
       '<div class="co-card ok-card">' + itemsHTML(o.items) + '<div style="height:8px"></div>' + totalsHTML(o.totals, o.promo) +
       '<div class="sum-row" style="margin-top:8px"><span>Payment</span><b>' + esc(PAYNAME[o.pay]) + (o.trx ? ' · ' + esc(o.trx) : '') + '</b></div>' +
-      '<div class="sum-row"><span>Deliver to</span><b style="text-align:right;max-width:60%">' + esc(o.address) + ', ' + esc(o.district) + '</b></div></div>' +
+      '<div class="sum-row"><span>Deliver to</span><b class="addr">' + esc(o.address) + ', ' + esc(o.district) + '</b></div></div>' +
       '<div class="ok-actions"><a class="btn btn-solid" href="' + link + '" target="_blank" rel="noopener"><span>SEND ORDER ON WHATSAPP</span></a>' +
       '<a class="btn btn-outline" href="#/shop"><span>CONTINUE SHOPPING</span></a></div></div>';
   }

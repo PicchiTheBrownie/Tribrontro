@@ -166,7 +166,6 @@
   function colorHex(c){ return (typeof COLORS !== 'undefined' && COLORS[c]) || '#ccc'; }
   function getList(){ return (typeof PRODUCTS !== 'undefined') ? PRODUCTS : []; }
   function freeShip(){ return (typeof FREE_SHIP !== 'undefined') ? FREE_SHIP : 1500; }
-  function shipFee(){ return (typeof SHIP_FEE !== 'undefined') ? SHIP_FEE : 80; }
 
   var ICON = {
     truck: '<svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>',
@@ -182,7 +181,7 @@
     if (!p) {
       document.title = 'Product not found — TRIBRONTRO';
       host.innerHTML = '<div class="wrap"><div class="pd-404"><h1>Product not found</h1>' +
-        '<p>Ei product ta khuje pawa jayni ba ar nai.</p><a href="#/shop">BACK TO SHOP</a></div></div>';
+        '<p>We could not find this product. It may have been removed.</p><a href="#/shop">BACK TO SHOP</a></div></div>';
       return;
     }
 
@@ -327,7 +326,7 @@
           '</div>' +
           '<div class="pd-acc">' +
             '<details open><summary>Size help</summary><p>Between sizes? Go one up for a relaxed fit. Oversized pieces are cut boxy, so take your usual size.</p></details>' +
-            '<details><summary>Delivery</summary><p>1–2 days inside Rajshahi and 3–5 days elsewhere in Bangladesh. Delivery is ' + money(shipFee()) + ' per order and free on orders of ' + money(freeShip()) + ' or more.</p></details>' +
+            '<details><summary>Delivery</summary><p>1–2 days inside Rajshahi and 3–5 days elsewhere in Bangladesh. Delivery is ৳60 inside Rajshahi and ৳120 outside Rajshahi, and free on orders of ' + money(freeShip()) + ' or more.</p></details>' +
             '<details><summary>Returns &amp; exchange</summary><p>Wrong size? You can swap it within 7 days of delivery. The piece must be unworn and unwashed, with tags attached. <a href="#/help/returns" style="color:var(--orange-deep,#9B5BD6)">Read the full policy</a>.</p></details>' +
           '</div>' +
         '</div>' +
