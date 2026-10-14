@@ -2,5 +2,9 @@
   "framework": null,
   "installCommand": null,
   "buildCommand": null,
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "redirects": [
+    { "source": "/admin", "destination": "/order-desk.html", "permanent": false },
+    { "source": "/admin/", "destination": "/order-desk.html", "permanent": false }
+  ]
 }
