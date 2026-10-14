@@ -273,6 +273,59 @@ td .field.num{width:96px;padding:6px 12px;border-radius:999px}
 h1,h2,h3{letter-spacing:0;line-height:1.1}
 body{font-weight:500}
 th{letter-spacing:.08em}
+
+/* ===== product add / edit form ===== */
+.pf-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.pf-top h3{margin-bottom:0}
+.pf-hint{color:var(--ink-soft);font-size:12.5px}
+.panel.editing{box-shadow:0 30px 60px -30px rgba(0,0,0,.8),inset 0 0 0 1px rgba(192,138,224,.6)}
+.pf-grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:28px;align-items:start}
+.pf-sec{padding:22px 0;border-top:1px solid var(--line)}
+.pf-sec:first-child{border-top:0;padding-top:10px}
+.pf-sec h4{font:500 15px var(--font-display);display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pf-sec h4 b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:600 12px var(--font-body);background:rgba(106,27,154,.35);color:#E2C9F5}
+textarea.field{resize:vertical;min-height:90px;font:inherit}
+.pf-two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pf-three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.pf-note{color:var(--ink-soft);font-size:12.5px;margin-top:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chipx{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);cursor:pointer;transition:.2s}
+.chipx:hover{color:var(--ink);border-color:rgba(192,138,224,.5)}
+.chipx.on{background:rgba(106,27,154,.32);border-color:rgba(192,138,224,.7);color:#fff}
+.chipx i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(239,232,243,.4);flex:none}
+.pf-add{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.pf-add .field{flex:1;min-width:150px;max-width:260px}
+.cpick{width:46px;height:42px;padding:2px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);cursor:pointer}
+.pf-photos{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+.drop{position:relative;aspect-ratio:4/5;border-radius:22px;border:1.5px dashed rgba(192,138,224,.45);background:rgba(255,255,255,.03);display:grid;place-items:center;cursor:pointer;overflow:hidden;transition:.2s}
+.drop:hover,.drop.over{border-color:var(--orange);background:rgba(106,27,154,.14)}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.drop.has{border-style:solid}
+.drop-msg{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--ink-soft);text-align:center;padding:12px}
+.drop-msg .ic{width:26px;height:26px;color:var(--orange)}
+.drop-msg b{color:var(--ink);font-weight:500}
+.drop-msg span{font-size:12px}
+.drop.has .drop-msg{display:none}
+.slot .field{margin-top:10px;padding:8px 14px;font-size:12.5px}
+.slot-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px;color:var(--ink-soft);font-size:12.5px}
+.pf-actions{display:flex;gap:12px;flex-wrap:wrap;padding-top:24px;border-top:1px solid var(--line)}
+.pf-actions .btn{display:inline-flex;align-items:center;gap:8px}
+.pf-side{position:sticky;top:24px}
+.pf-pv-label{font:500 11.5px var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+.pv{background:var(--bg2);border:1px solid var(--line);border-radius:24px;padding:12px}
+.pv-img{position:relative;aspect-ratio:4/5;border-radius:16px;background:#1a0b27 center/cover no-repeat}
+.pv-img.ph{display:grid;place-items:center;font:300 54px var(--font-display);color:rgba(251,245,255,.85);background:radial-gradient(90% 90% at 50% 0%,#34124D,#0F0914)}
+.pv-img em{position:absolute;top:10px;left:10px;font-style:normal;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(9,6,11,.85);border:1px solid rgba(192,138,224,.5)}
+.pv-row{display:flex;justify-content:space-between;gap:10px;margin-top:12px}
+.pv-row b{font:500 15px var(--font-display);overflow:hidden;text-overflow:ellipsis}
+.pv-dots{display:flex;gap:6px;margin:8px 0 4px}
+.pv-dots span{width:14px;height:14px;border-radius:50%;border:1px solid rgba(239,232,243,.35)}
+.pv small{color:var(--ink-soft)}
+.thumb{width:44px;height:56px;border-radius:12px;object-fit:cover;flex:none;background:#1a0b27}
+.thumb.ph{display:grid;place-items:center;font:300 18px var(--font-display);color:rgba(251,245,255,.85);background:linear-gradient(160deg,#5a1f86,#1a0b27)}
+.tagcell .pill{margin:0 4px 4px 0}
+@media(max-width:1000px){.pf-grid{grid-template-columns:1fr}.pf-side{position:static;max-width:300px}}
+@media(max-width:600px){.pf-two,.pf-three,.pf-photos{grid-template-columns:1fr 1fr}.pf-two{grid-template-columns:1fr}.pf-three{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -364,7 +417,89 @@ th{letter-spacing:.08em}
     <!-- Products & Categories -->
     <section id="v-products" class="hidden">
       <div class="head"><h2>Products &amp; Categories</h2><button class="btn ghost refresh" aria-label="Refresh data"><svg class="ic"><use href="#i-refresh"/></svg>Refresh</button></div>
-      <div class="panel" style="margin-top:0">
+
+      <div class="warn hidden" id="pfHelp"></div>
+
+      <!-- ===== Add / edit product ===== -->
+      <div class="panel" id="pEditor" style="margin-top:0">
+        <div class="pf-top">
+          <h3><svg class="ic"><use href="#i-bag"/></svg><span id="pfTitle">Add a product</span></h3>
+          <span class="pf-hint">Products you save here appear on the website straight away.</span>
+        </div>
+        <div class="pf-grid">
+          <div class="pf-main">
+
+            <div class="pf-sec">
+              <h4><b>1</b>Basic info</h4>
+              <label for="pName">Product name *</label>
+              <input class="field" id="pName" maxlength="80" placeholder="e.g. Midnight Run Tee">
+              <label for="pDesc">Description</label>
+              <textarea class="field" id="pDesc" rows="4" maxlength="800" placeholder="Fabric, fit, print details. Shown on the product page."></textarea>
+              <div class="pf-two">
+                <div><label for="pCat">Category</label><select class="field" id="pCat"></select></div>
+                <div><label for="pTex">Look when there is no photo</label>
+                  <select class="field" id="pTex"><option value="1">Style 1</option><option value="2">Style 2</option><option value="3">Style 3</option><option value="4">Style 4</option><option value="5">Style 5</option></select></div>
+              </div>
+              <label>Show in these shop sections</label>
+              <div class="chips" id="pTags"></div>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>2</b>Price &amp; stock</h4>
+              <div class="pf-three">
+                <div><label for="pPrice">Price (৳) *</label><input class="field" id="pPrice" type="number" min="0" inputmode="numeric" placeholder="1190"></div>
+                <div><label for="pStock">Stock *</label><input class="field" id="pStock" type="number" min="0" inputmode="numeric" placeholder="20"></div>
+                <div><label for="pActive">Website</label><select class="field" id="pActive"><option value="true">Visible</option><option value="false">Hidden</option></select></div>
+              </div>
+              <p class="pf-note">Stock 0 shows "Sold out" on the website. Hidden products are not shown at all.</p>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>3</b>Sizes *</h4>
+              <div class="chips" id="pSizes"></div>
+              <div class="pf-add"><input class="field" id="sName" maxlength="10" placeholder="Other size, e.g. 3XL"><button class="btn ghost sm" type="button" id="sAdd">Add size</button></div>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>4</b>Colors *</h4>
+              <div class="chips" id="pColors"></div>
+              <div class="pf-add"><input class="field" id="cName" maxlength="24" placeholder="New color name, e.g. Olive"><input class="cpick" id="cHex" type="color" value="#6A1B9A" aria-label="Pick color"><button class="btn ghost sm" type="button" id="cAdd">Add color</button></div>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>5</b>Photos</h4>
+              <p class="pf-note" style="margin-top:0">Click a box or drop a photo. Large photos are shrunk automatically. Use a front photo at least; the back photo is optional.</p>
+              <div class="pf-photos">
+                <div class="slot" data-slot="front">
+                  <div class="drop" id="dropFront" tabindex="0" role="button" aria-label="Choose front photo"><img id="imgFront" class="hidden" alt=""><div class="drop-msg"><svg class="ic"><use href="#i-plus"/></svg><b>Front photo</b><span>Click or drop here</span></div></div>
+                  <input id="fileFront" type="file" accept="image/*" hidden>
+                  <input class="field" id="urlFront" placeholder="or paste an image link">
+                  <div class="slot-bar"><span id="stFront">No photo</span><button class="btn ghost sm" type="button" data-clear="front">Remove</button></div>
+                </div>
+                <div class="slot" data-slot="back">
+                  <div class="drop" id="dropBack" tabindex="0" role="button" aria-label="Choose back photo"><img id="imgBack" class="hidden" alt=""><div class="drop-msg"><svg class="ic"><use href="#i-plus"/></svg><b>Back photo</b><span>Click or drop here</span></div></div>
+                  <input id="fileBack" type="file" accept="image/*" hidden>
+                  <input class="field" id="urlBack" placeholder="or paste an image link">
+                  <div class="slot-bar"><span id="stBack">No photo</span><button class="btn ghost sm" type="button" data-clear="back">Remove</button></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pf-actions">
+              <button class="btn" id="pSave" type="button"><svg class="ic"><use href="#i-ok"/></svg><span>Save product</span></button>
+              <button class="btn ghost hidden" id="pCancel" type="button">Cancel edit</button>
+              <button class="btn ghost" id="pReset" type="button">Clear form</button>
+            </div>
+          </div>
+
+          <div class="pf-side">
+            <div class="pf-pv-label">Preview on the website</div>
+            <div class="pv" id="pv"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
         <h3><svg class="ic"><use href="#i-tag"/></svg>Categories</h3>
         <div class="formrow">
           <input class="field" id="catName" placeholder="New category name" aria-label="Category name" maxlength="60">
@@ -372,15 +507,9 @@ th{letter-spacing:.08em}
         </div>
         <div class="scroll" id="catList"></div>
       </div>
+
       <div class="panel">
-        <h3><svg class="ic"><use href="#i-bag"/></svg>Products</h3>
-        <div class="formrow">
-          <input class="field" id="pName" placeholder="Product name" aria-label="Product name" style="flex:2;min-width:200px">
-          <select class="field" id="pCat" aria-label="Category"></select>
-          <input class="field" id="pPrice" type="number" min="0" placeholder="Price ৳" aria-label="Price">
-          <input class="field" id="pStock" type="number" min="0" placeholder="Stock" aria-label="Stock">
-          <button class="btn" id="addProd" style="flex:0"><svg class="ic"><use href="#i-plus"/></svg>Add product</button>
-        </div>
+        <h3><svg class="ic"><use href="#i-stack"/></svg>All products</h3>
         <div class="scroll" id="prodList"></div>
       </div>
     </section>
@@ -472,6 +601,7 @@ th{letter-spacing:.08em}
   </main>
 </div>
 
+<!-- Admin scripts: loaded in this order (do not reorder) -->
 <script>
 const SUPABASE_URL="https://bhhqaarbhpslpwsfmxdl.supabase.co";
 const SUPABASE_KEY="sb_publishable_xFUgjtsBKKC5zYc4s1bRzg_FjfllZEJ";
@@ -620,17 +750,29 @@ function renderOrders(){
   $("list").innerHTML=table(rows);
 }
 
-/* ---------- Products & Categories ---------- */
+/* ---------- Products & Categories (lists) ---------- */
+/* the shop sections the website understands (same ids as CATEGORIES in js/data.js) */
+const SITE_TAGS=[["t-shirts","T-Shirts"],["oversized","Oversized"],["graphic","Graphic"],["essentials","Essentials"],["new-arrivals","New arrivals"],["limited-drop","Limited drop"]];
+const tagLabel=t=>(SITE_TAGS.find(x=>x[0]===t)||[0,t])[1];
+const arr=v=>Array.isArray(v)?v:(typeof v==="string"&&v.trim()?v.split(",").map(s=>s.trim()).filter(Boolean):[]);
+const thumb=p=>p.img?`<img class="thumb" src="${esc(p.img)}" alt="" loading="lazy">`:`<span class="thumb ph">${esc(ini(p.name))}</span>`;
+
 function renderProducts(){
-  const cv=$("pCat").value;
-  $("pCat").innerHTML='<option value="">No category</option>'+categories.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
-  $("pCat").value=cv;
+  if(typeof pfRefresh==="function")pfRefresh();   /* category dropdown + preview, see 06b-product-form.js */
   $("catList").innerHTML=missing.categories?miss("categories"):!categories.length?none("tag","No categories yet. Add your first one above."):
     `<table class="slim"><thead><tr><th>Name</th><th>Products</th><th></th></tr></thead><tbody>`+
     categories.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${products.filter(p=>String(p.category_id)===String(c.id)).length}</td><td style="text-align:right"><button class="btn ghost sm" data-del="categories" data-id="${esc(c.id)}" aria-label="Delete category">${I("trash","ic sm")}Delete</button></td></tr>`).join("")+`</tbody></table>`;
   $("prodList").innerHTML=missing.products?miss("products"):!products.length?none("bag","No products yet. Add your first one above."):
-    `<table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Visible</th><th></th></tr></thead><tbody>`+
-    products.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${esc(catName(p.category_id))}</td><td><input class="field num" style="width:110px" type="number" min="0" value="${esc(p.price)}" data-tbl="products" data-id="${esc(p.id)}" data-f="price" data-type="num" aria-label="Price"></td><td>${esc(p.stock)}</td><td><select class="field" data-tbl="products" data-id="${esc(p.id)}" data-f="active" data-type="bool" aria-label="Visible"><option value="true" ${p.active?"selected":""}>Visible</option><option value="false" ${!p.active?"selected":""}>Hidden</option></select></td><td style="text-align:right"><button class="btn ghost sm" data-del="products" data-id="${esc(p.id)}" aria-label="Delete product">${I("trash","ic sm")}Delete</button></td></tr>`).join("")+`</tbody></table>`;
+    `<table><thead><tr><th>Product</th><th>Shop sections</th><th>Variants</th><th>Price</th><th>Stock</th><th>Website</th><th></th></tr></thead><tbody>`+
+    products.map(p=>{
+      const tg=arr(p.tags).map(t=>`<span class="pill">${esc(tagLabel(t))}</span>`).join(" ")||"—";
+      return `<tr><td><div class="who">${thumb(p)}<div><b>${esc(p.name)}</b><small>${esc(catName(p.category_id))}</small></div></div></td>`+
+      `<td class="tagcell">${tg}</td>`+
+      `<td><small>${arr(p.sizes).map(esc).join(", ")||"No sizes"}</small><small>${arr(p.colors).map(esc).join(", ")||"No colors"}</small></td>`+
+      `<td><input class="field num" style="width:100px" type="number" min="0" value="${esc(p.price)}" data-tbl="products" data-id="${esc(p.id)}" data-f="price" data-type="num" aria-label="Price"></td>`+
+      `<td><input class="field num" type="number" min="0" value="${esc(p.stock)}" data-tbl="products" data-id="${esc(p.id)}" data-f="stock" data-type="num" aria-label="Stock"></td>`+
+      `<td><select class="field" data-tbl="products" data-id="${esc(p.id)}" data-f="active" data-type="bool" aria-label="Visible"><option value="true" ${p.active!==false?"selected":""}>Visible</option><option value="false" ${p.active===false?"selected":""}>Hidden</option></select></td>`+
+      `<td style="text-align:right;white-space:nowrap"><button class="btn ghost sm" data-edit="${esc(p.id)}" aria-label="Edit product">${I("pencil","ic sm")}Edit</button> <button class="btn ghost sm" data-del="products" data-id="${esc(p.id)}" aria-label="Delete product">${I("trash","ic sm")}Delete</button></td></tr>`}).join("")+`</tbody></table>`;
 }
 $("addCat").onclick=async()=>{
   const name=$("catName").value.trim();if(!name)return toast("Enter a category name");
@@ -638,15 +780,179 @@ $("addCat").onclick=async()=>{
   if(error)return toast("Could not add: "+error.message);
   $("catName").value="";await load();toast("Category added");
 };
-$("addProd").onclick=async()=>{
-  const name=$("pName").value.trim();if(!name)return toast("Enter a product name");
-  const row={name,price:num($("pPrice").value),stock:parseInt($("pStock").value)||0,active:true};
-  if($("pCat").value)row.category_id=$("pCat").value;
-  const {error}=await sb.from("products").insert(row);
-  if(error)return toast("Could not add: "+error.message);
-  $("pName").value=$("pPrice").value=$("pStock").value="";await load();toast("Product added");
+/* ---------- Product form: add / edit, sizes, colors, photos, live preview ---------- */
+const BUCKET="product-images";
+const SIZE_LIST=["XS","S","M","L","XL","XXL"];
+const COLOR_PRESETS=[["Black","#18140F"],["Purple","#6A1B9A"],["Off-white","#F3EEE4"],["Brown","#7C6A55"],["Charcoal","#3A352D"]];
+const blankPF=()=>({id:null,tags:new Set(),sizes:["S","M","L","XL"],colors:[],img:"",imgBack:"",busy:0});
+let PF=blankPF();
+
+/* ----- chips (shop sections, sizes, colors) ----- */
+function pfChips(){
+  $("pTags").innerHTML=SITE_TAGS.map(([id,l])=>`<button type="button" class="chipx ${PF.tags.has(id)?"on":""}" data-tag="${id}">${esc(l)}</button>`).join("");
+  const extra=PF.sizes.filter(s=>!SIZE_LIST.includes(s));
+  $("pSizes").innerHTML=[...SIZE_LIST,...extra].map(s=>`<button type="button" class="chipx ${PF.sizes.includes(s)?"on":""}" data-size="${esc(s)}">${esc(s)}</button>`).join("");
+  const have=n=>PF.colors.find(c=>c.name===n);
+  const custom=PF.colors.filter(c=>!COLOR_PRESETS.some(p=>p[0]===c.name));
+  $("pColors").innerHTML=[...COLOR_PRESETS.map(([n,h])=>({name:n,hex:(have(n)||{}).hex||h})),...custom].map(c=>`<button type="button" class="chipx ${have(c.name)?"on":""}" data-col="${esc(c.name)}" data-hex="${esc(c.hex)}"><i style="background:${esc(c.hex)}"></i>${esc(c.name)}</button>`).join("");
+}
+$("pTags").onclick=e=>{const b=e.target.closest("[data-tag]");if(!b)return;PF.tags.has(b.dataset.tag)?PF.tags.delete(b.dataset.tag):PF.tags.add(b.dataset.tag);pfChips();pfPreview()};
+$("pSizes").onclick=e=>{const b=e.target.closest("[data-size]");if(!b)return;const s=b.dataset.size;PF.sizes=PF.sizes.includes(s)?PF.sizes.filter(x=>x!==s):[...PF.sizes,s];pfSortSizes();pfChips()};
+$("pColors").onclick=e=>{const b=e.target.closest("[data-col]");if(!b)return;const n=b.dataset.col;PF.colors=PF.colors.find(c=>c.name===n)?PF.colors.filter(c=>c.name!==n):[...PF.colors,{name:n,hex:b.dataset.hex}];pfChips();pfPreview()};
+function pfSortSizes(){const k=s=>{const i=SIZE_LIST.indexOf(s);return i<0?99:i};PF.sizes.sort((a,b)=>k(a)-k(b)||a.localeCompare(b))}
+$("sAdd").onclick=()=>{const s=$("sName").value.trim().toUpperCase();if(!s)return;if(!PF.sizes.includes(s))PF.sizes.push(s);pfSortSizes();$("sName").value="";pfChips()};
+$("cAdd").onclick=()=>{
+  const n=$("cName").value.trim();if(!n)return toast("Type a color name first");
+  const hex=$("cHex").value,i=PF.colors.findIndex(c=>c.name.toLowerCase()===n.toLowerCase());
+  if(i>-1)PF.colors[i].hex=hex;else PF.colors.push({name:n,hex});
+  $("cName").value="";pfChips();pfPreview();
+};
+["sName","cName"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$(id==="sName"?"sAdd":"cAdd").click()}}));
+
+/* ----- photos ----- */
+const SLOT={front:{key:"img",file:"fileFront",img:"imgFront",st:"stFront",url:"urlFront",drop:"dropFront"},back:{key:"imgBack",file:"fileBack",img:"imgBack",st:"stBack",url:"urlBack",drop:"dropBack"}};
+function pfSlotDraw(slot){
+  const S=SLOT[slot],src=PF[S.key],im=$(S.img),box=$(S.drop);
+  if(src){im.src=src;im.classList.remove("hidden");box.classList.add("has")}else{im.removeAttribute("src");im.classList.add("hidden");box.classList.remove("has")}
+  $(S.url).value=/^data:/.test(src)?"":src;
+}
+async function shrink(file,max=1600){
+  const bmp=await createImageBitmap(file);
+  const k=Math.min(1,max/Math.max(bmp.width,bmp.height));
+  const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+  c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+  let blob=await new Promise(r=>c.toBlob(r,"image/webp",.86));
+  if(!blob||blob.type!=="image/webp")blob=await new Promise(r=>c.toBlob(r,"image/jpeg",.86));
+  return blob;
+}
+async function uploadImage(file){
+  if(!/^image\//.test(file.type))throw new Error("Please choose an image file");
+  if(file.size>15*1024*1024)throw new Error("That photo is over 15 MB");
+  const blob=await shrink(file);
+  const ext=blob.type==="image/webp"?"webp":"jpg";
+  const path=`products/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+  const {error}=await sb.storage.from(BUCKET).upload(path,blob,{contentType:blob.type,cacheControl:"31536000"});
+  if(error)throw error;
+  return sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+async function pfFile(slot,file){
+  if(!file)return;const S=SLOT[slot];
+  $(S.st).textContent="Uploading…";PF.busy++;$("pSave").disabled=true;
+  try{PF[S.key]=await uploadImage(file);$(S.st).textContent="Uploaded ✓"}
+  catch(err){$(S.st).textContent="Upload failed";pfError(err,true)}
+  finally{PF.busy--;$("pSave").disabled=PF.busy>0;pfSlotDraw(slot);pfPreview()}
+}
+Object.entries(SLOT).forEach(([slot,S])=>{
+  const drop=$(S.drop),inp=$(S.file);
+  drop.onclick=()=>inp.click();
+  drop.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();inp.click()}};
+  inp.onchange=()=>{pfFile(slot,inp.files[0]);inp.value=""};
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over")}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over")}));
+  drop.addEventListener("drop",e=>pfFile(slot,e.dataTransfer.files[0]));
+  $(S.url).onchange=()=>{PF[S.key]=$(S.url).value.trim();$(S.st).textContent=PF[S.key]?"Link added":"No photo";pfSlotDraw(slot);pfPreview()};
+});
+document.querySelectorAll("[data-clear]").forEach(b=>b.onclick=()=>{const S=SLOT[b.dataset.clear];PF[S.key]="";$(S.st).textContent="No photo";pfSlotDraw(b.dataset.clear);pfPreview()});
+
+/* ----- live preview (looks like a card on the website) ----- */
+function pfPreview(){
+  const name=$("pName").value.trim()||"Product name",price=num($("pPrice").value),stock=$("pStock").value===""?1:num($("pStock").value);
+  const badge=stock<=0?"Sold out":PF.tags.has("limited-drop")?"Limited":PF.tags.has("new-arrivals")?"New":"";
+  const dots=PF.colors.map(c=>`<span style="background:${esc(c.hex)}" title="${esc(c.name)}"></span>`).join("");
+  $("pv").innerHTML=`<div class="pv-img ${PF.img?"":"ph"}" ${PF.img?`style="background-image:url('${esc(PF.img)}')"`:""}>${PF.img?"":esc(ini(name))}${badge?`<em>${badge}</em>`:""}</div><div class="pv-row"><b>${esc(name)}</b><span>${tk(price)}</span></div><div class="pv-dots">${dots}</div><small>${PF.sizes.map(esc).join(" · ")||"No sizes yet"}</small>`;
+}
+["pName","pPrice","pStock"].forEach(id=>$(id).addEventListener("input",pfPreview));
+
+/* ----- category dropdown (called by renderProducts) ----- */
+function pfRefresh(){
+  const v=$("pCat").value;
+  $("pCat").innerHTML='<option value="">No category</option>'+categories.map(c=>`<option value="${esc(c.id)}">${esc(c.name)}</option>`).join("");
+  $("pCat").value=v;pfPreview();
+}
+
+/* ----- fill / clear the form ----- */
+function pfMode(){
+  const edit=PF.id!=null;
+  $("pfTitle").textContent=edit?"Edit product":"Add a product";
+  $("pSave").querySelector("span").textContent=edit?"Update product":"Save product";
+  $("pCancel").classList.toggle("hidden",!edit);
+  $("pEditor").classList.toggle("editing",edit);
+}
+function pfReset(){
+  PF=blankPF();
+  ["pName","pDesc","pPrice","pStock","sName","cName"].forEach(id=>$(id).value="");
+  $("pCat").value="";$("pTex").value="1";$("pActive").value="true";
+  $("stFront").textContent=$("stBack").textContent="No photo";
+  pfChips();pfSlotDraw("front");pfSlotDraw("back");pfPreview();pfMode();
+}
+function pfLoad(p){
+  PF=blankPF();PF.id=p.id;
+  PF.tags=new Set(arr(p.tags));PF.sizes=arr(p.sizes);pfSortSizes();
+  const hx=(p.color_hex&&typeof p.color_hex==="object")?p.color_hex:{};
+  PF.colors=arr(p.colors).map(n=>({name:n,hex:hx[n]||(COLOR_PRESETS.find(c=>c[0]===n)||[0,"#888888"])[1]}));
+  PF.img=p.img||"";PF.imgBack=p.img_back||"";
+  $("pName").value=p.name||"";$("pDesc").value=p.description||"";
+  $("pPrice").value=num(p.price)||"";$("pStock").value=p.stock==null?"":num(p.stock);
+  $("pCat").value=p.category_id==null?"":String(p.category_id);$("pTex").value=String(p.tex||1);
+  $("pActive").value=p.active===false?"false":"true";
+  $("stFront").textContent=PF.img?"Photo added":"No photo";$("stBack").textContent=PF.imgBack?"Photo added":"No photo";
+  pfChips();pfSlotDraw("front");pfSlotDraw("back");pfPreview();pfMode();
+  $("pEditor").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("pReset").onclick=pfReset;
+$("pCancel").onclick=pfReset;
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-edit]");if(!b)return;
+  const p=products.find(x=>String(x.id)===b.dataset.edit);if(p)pfLoad(p);
+});
+
+/* ----- errors that need a fix in Supabase get a clear message ----- */
+function pfError(err,quiet){
+  const m=String((err&&err.message)||err||"");
+  let hint="";
+  if(/column|schema cache/i.test(m))hint="Your products table is missing some columns. Run supabase/setup-products.sql in the Supabase SQL editor, then refresh this page.";
+  else if(/row-level security|permission|not authorized|policy/i.test(m))hint="Saving was blocked. Make sure your email is in the admins table and that supabase/setup-products.sql has been run.";
+  else if(/bucket|not found/i.test(m))hint="The photo storage is not set up yet. Run supabase/setup-products.sql in the Supabase SQL editor, then refresh.";
+  const box=$("pfHelp");
+  if(hint){box.innerHTML=I("note","ic")+"<span>"+esc(hint)+"</span>";box.classList.remove("hidden");box.scrollIntoView({behavior:"smooth",block:"center"})}
+  toast(quiet?("Photo: "+(m||"upload failed")):("Could not save: "+m));
+}
+
+/* ----- save ----- */
+function pfCollect(){
+  const name=$("pName").value.trim();
+  if(!name){toast("Enter a product name");$("pName").focus();return null}
+  const price=num($("pPrice").value);
+  if(!(price>0)){toast("Enter a price");$("pPrice").focus();return null}
+  if($("pStock").value===""){toast("Enter the stock (0 if sold out)");$("pStock").focus();return null}
+  if(!PF.sizes.length){toast("Pick at least one size");return null}
+  if(!PF.colors.length){toast("Pick at least one color");return null}
+  const hex={};PF.colors.forEach(c=>hex[c.name]=c.hex);
+  return {name,description:$("pDesc").value.trim()||null,price,stock:Math.max(0,parseInt($("pStock").value)||0),
+    active:$("pActive").value==="true",category_id:$("pCat").value||null,tex:Number($("pTex").value)||1,
+    tags:[...PF.tags],sizes:[...PF.sizes],colors:PF.colors.map(c=>c.name),color_hex:hex,img:PF.img||null,img_back:PF.imgBack||null};
+}
+$("pSave").onclick=async()=>{
+  if(PF.busy>0)return toast("Wait for the photo to finish uploading");
+  const row=pfCollect();if(!row)return;
+  const btn=$("pSave");btn.disabled=true;
+  const editing=PF.id!=null;
+  const r=editing?await sb.from("products").update(row).eq("id",PF.id).select():await sb.from("products").insert(row).select();
+  btn.disabled=false;
+  if(r.error)return pfError(r.error);
+  if(editing&&(!r.data||!r.data.length))return pfError("row-level security: nothing was updated");
+  $("pfHelp").classList.add("hidden");
+  pfReset();await load();
+  toast(editing?"Product updated":"Product added. It is now on the website.");
 };
 
+/* when a product is deleted, remove its photos from storage too (see 12-render-actions.js) */
+async function dropPhotos(urls){
+  const paths=(urls||[]).filter(Boolean).map(u=>{const i=String(u).indexOf("/"+BUCKET+"/");return i<0?null:decodeURIComponent(String(u).slice(i+BUCKET.length+2).split("?")[0])}).filter(Boolean);
+  if(paths.length){try{await sb.storage.from(BUCKET).remove(paths)}catch(e){}}
+}
+
+pfReset();
 /* ---------- Customers ---------- */
 function renderCustomers(){
   const all=[...grp(orders,o=>o.phone||o.email||o.name||"unknown").values()].map(a=>({name:a[0].name,phone:a[0].phone,email:a[0].email,district:a[0].district,n:a.length,spent:sum(live(a),o=>o.total),last:a[0].created_at})).sort((x,y)=>y.spent-x.spent);
@@ -743,8 +1049,10 @@ document.addEventListener("click",async e=>{
   const d=e.target.closest("[data-del]");
   if(!d)return;
   if(!confirm("Delete this item? This can't be undone."))return;
+  const gone=d.dataset.del==="products"?products.find(p=>String(p.id)===d.dataset.id):null;
   const {error}=await sb.from(d.dataset.del).delete().eq("id",d.dataset.id);
   if(error)return toast("Delete failed: "+error.message);
+  if(gone){dropPhotos([gone.img,gone.img_back]);if(PF&&String(PF.id)===d.dataset.id)pfReset()}
   await load();toast("Deleted");
 });
 
