@@ -34,6 +34,7 @@ src/html/             THE HTML, split section by section (edit these)
 index.html            Small page: head + placeholders. The loader fills them from src/html/
 build-html.js         OPTIONAL: makes index.single.html (everything in one file)
 js/include-loader.js  Builds the page from the section files when it opens
+supabase/             SQL to run once in Supabase (products, photo storage, demo products)
 css/                  Styles, loaded in number order (later files override earlier ones)
 js/                   Scripts, one feature per file (loaded in the order listed in index.html)
 admin/                Order Desk admin panel (index.html is a small page; css/ and js/ are plain files)
@@ -80,6 +81,21 @@ A line like `<!-- @include pages/shop.html -->` means "put that file here". File
 **Scripts** (in load order): `config`, `data`, `shop`, `router`, `cart`, `product-actions`, `init`, `product`, `progress-bar`, `quick-view`, `scroll-links`, `checkout-account`, `home-carousel`, `floating-chat`, `copy-buttons`, then Supabase, `supabase`, `customer-auth`.
 
 Do not reorder the scripts. Some files need the ones before them.
+
+## Adding products from the admin panel
+
+Products are added in the admin panel (**Products & Categories**) and appear on the website by themselves. No code editing.
+
+**One-time setup (Supabase):**
+1. Open your Supabase project, then **SQL Editor > New query**.
+2. Paste `supabase/setup-products.sql` and click **Run**. This adds the new product columns, the photo storage, and the permissions. Add your own email to the `admins` table first (the file explains how). It is safe to run again.
+3. Optional: run `supabase/seed-demo-products.sql` to copy the 13 sample products from `js/data.js` into the table, so you can edit or hide them. **Do this before adding your first product**, because once the table has any product the website shows only the table, not `js/data.js`.
+
+**Adding a product:** fill the form (name, description, price, stock, sizes, colors, shop sections, front and back photo) and click **Save product**. The preview on the right shows the card as the website will show it. Use **Edit** in the list to change a product, and set **Website: Hidden** to hide it without deleting it. Photos are shrunk and stored in the `product-images` bucket. Deleting a product also deletes its photos.
+
+**How the website gets them:** `js/supabase.js` reads the `products` table when a page opens, skips hidden products, and redraws the shop, the category counts, the home carousel and the product page. A copy is kept on the visitor's device so the right products show immediately next time.
+
+Admin columns used: `name, description, price, stock, active, category_id, tags, sizes, colors, color_hex, tex, img, img_back`.
 
 ## Putting it online
 

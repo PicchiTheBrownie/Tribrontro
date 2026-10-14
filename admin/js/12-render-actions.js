@@ -25,8 +25,10 @@ document.addEventListener("click",async e=>{
   const d=e.target.closest("[data-del]");
   if(!d)return;
   if(!confirm("Delete this item? This can't be undone."))return;
+  const gone=d.dataset.del==="products"?products.find(p=>String(p.id)===d.dataset.id):null;
   const {error}=await sb.from(d.dataset.del).delete().eq("id",d.dataset.id);
   if(error)return toast("Delete failed: "+error.message);
+  if(gone){dropPhotos([gone.img,gone.img_back]);if(PF&&String(PF.id)===d.dataset.id)pfReset()}
   await load();toast("Deleted");
 });
 

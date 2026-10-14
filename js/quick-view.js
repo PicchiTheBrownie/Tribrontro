@@ -39,7 +39,7 @@
 
   document.addEventListener('click', e => {
     const t = e.target.closest('.product .tex, .product .p-name');
-    if (t) { const pr = t.closest('.product'); if (pr && pr.dataset.id) open(Number(pr.dataset.id)); }
+    if (t) { const pr = t.closest('.product'); if (pr && pr.dataset.id) open(normId(pr.dataset.id)); }
   });
   back.addEventListener('click', e => {
     if (e.target === back) return close();

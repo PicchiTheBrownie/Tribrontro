@@ -27,3 +27,24 @@ const PRICE_RANGES = {
   high: { label:'Over ৳1,200',     test:p => p > 1200 }
 };
 const SIZE_ORDER = ['XS','S','M','L','XL','XXL'];
+
+/* ---------------------------------------------------------------------
+   Products that come from the admin panel (js/supabase.js loads them).
+   normId: product ids can be numbers or text, this keeps both working.
+   setProducts: swaps the product list and adds any new colours / sizes.
+   A copy is kept on the visitor's device so the right products show straight away.
+   --------------------------------------------------------------------- */
+const PRODUCT_CACHE_KEY = 'tb_products_v1';
+function normId(v){ return /^-?\d+$/.test(String(v)) ? Number(v) : String(v); }
+function setProducts(rows){
+  rows.forEach(function (r) {
+    Object.keys(r.colorHex || {}).forEach(function (n) { COLORS[n] = r.colorHex[n]; });
+    (r.sizes || []).forEach(function (z) { if (SIZE_ORDER.indexOf(z) < 0) SIZE_ORDER.push(z); });
+  });
+  PRODUCTS.length = 0;
+  rows.forEach(function (r) { PRODUCTS.push(r); });
+}
+try {
+  const saved = JSON.parse(localStorage.getItem(PRODUCT_CACHE_KEY) || 'null');
+  if (Array.isArray(saved) && saved.length) setProducts(saved);
+} catch (err) {}

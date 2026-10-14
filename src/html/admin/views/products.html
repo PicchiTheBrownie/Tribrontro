@@ -1,7 +1,89 @@
     <!-- Products & Categories -->
     <section id="v-products" class="hidden">
       <div class="head"><h2>Products &amp; Categories</h2><button class="btn ghost refresh" aria-label="Refresh data"><svg class="ic"><use href="#i-refresh"/></svg>Refresh</button></div>
-      <div class="panel" style="margin-top:0">
+
+      <div class="warn hidden" id="pfHelp"></div>
+
+      <!-- ===== Add / edit product ===== -->
+      <div class="panel" id="pEditor" style="margin-top:0">
+        <div class="pf-top">
+          <h3><svg class="ic"><use href="#i-bag"/></svg><span id="pfTitle">Add a product</span></h3>
+          <span class="pf-hint">Products you save here appear on the website straight away.</span>
+        </div>
+        <div class="pf-grid">
+          <div class="pf-main">
+
+            <div class="pf-sec">
+              <h4><b>1</b>Basic info</h4>
+              <label for="pName">Product name *</label>
+              <input class="field" id="pName" maxlength="80" placeholder="e.g. Midnight Run Tee">
+              <label for="pDesc">Description</label>
+              <textarea class="field" id="pDesc" rows="4" maxlength="800" placeholder="Fabric, fit, print details. Shown on the product page."></textarea>
+              <div class="pf-two">
+                <div><label for="pCat">Category</label><select class="field" id="pCat"></select></div>
+                <div><label for="pTex">Look when there is no photo</label>
+                  <select class="field" id="pTex"><option value="1">Style 1</option><option value="2">Style 2</option><option value="3">Style 3</option><option value="4">Style 4</option><option value="5">Style 5</option></select></div>
+              </div>
+              <label>Show in these shop sections</label>
+              <div class="chips" id="pTags"></div>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>2</b>Price &amp; stock</h4>
+              <div class="pf-three">
+                <div><label for="pPrice">Price (৳) *</label><input class="field" id="pPrice" type="number" min="0" inputmode="numeric" placeholder="1190"></div>
+                <div><label for="pStock">Stock *</label><input class="field" id="pStock" type="number" min="0" inputmode="numeric" placeholder="20"></div>
+                <div><label for="pActive">Website</label><select class="field" id="pActive"><option value="true">Visible</option><option value="false">Hidden</option></select></div>
+              </div>
+              <p class="pf-note">Stock 0 shows "Sold out" on the website. Hidden products are not shown at all.</p>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>3</b>Sizes *</h4>
+              <div class="chips" id="pSizes"></div>
+              <div class="pf-add"><input class="field" id="sName" maxlength="10" placeholder="Other size, e.g. 3XL"><button class="btn ghost sm" type="button" id="sAdd">Add size</button></div>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>4</b>Colors *</h4>
+              <div class="chips" id="pColors"></div>
+              <div class="pf-add"><input class="field" id="cName" maxlength="24" placeholder="New color name, e.g. Olive"><input class="cpick" id="cHex" type="color" value="#6A1B9A" aria-label="Pick color"><button class="btn ghost sm" type="button" id="cAdd">Add color</button></div>
+            </div>
+
+            <div class="pf-sec">
+              <h4><b>5</b>Photos</h4>
+              <p class="pf-note" style="margin-top:0">Click a box or drop a photo. Large photos are shrunk automatically. Use a front photo at least; the back photo is optional.</p>
+              <div class="pf-photos">
+                <div class="slot" data-slot="front">
+                  <div class="drop" id="dropFront" tabindex="0" role="button" aria-label="Choose front photo"><img id="imgFront" class="hidden" alt=""><div class="drop-msg"><svg class="ic"><use href="#i-plus"/></svg><b>Front photo</b><span>Click or drop here</span></div></div>
+                  <input id="fileFront" type="file" accept="image/*" hidden>
+                  <input class="field" id="urlFront" placeholder="or paste an image link">
+                  <div class="slot-bar"><span id="stFront">No photo</span><button class="btn ghost sm" type="button" data-clear="front">Remove</button></div>
+                </div>
+                <div class="slot" data-slot="back">
+                  <div class="drop" id="dropBack" tabindex="0" role="button" aria-label="Choose back photo"><img id="imgBack" class="hidden" alt=""><div class="drop-msg"><svg class="ic"><use href="#i-plus"/></svg><b>Back photo</b><span>Click or drop here</span></div></div>
+                  <input id="fileBack" type="file" accept="image/*" hidden>
+                  <input class="field" id="urlBack" placeholder="or paste an image link">
+                  <div class="slot-bar"><span id="stBack">No photo</span><button class="btn ghost sm" type="button" data-clear="back">Remove</button></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pf-actions">
+              <button class="btn" id="pSave" type="button"><svg class="ic"><use href="#i-ok"/></svg><span>Save product</span></button>
+              <button class="btn ghost hidden" id="pCancel" type="button">Cancel edit</button>
+              <button class="btn ghost" id="pReset" type="button">Clear form</button>
+            </div>
+          </div>
+
+          <div class="pf-side">
+            <div class="pf-pv-label">Preview on the website</div>
+            <div class="pv" id="pv"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
         <h3><svg class="ic"><use href="#i-tag"/></svg>Categories</h3>
         <div class="formrow">
           <input class="field" id="catName" placeholder="New category name" aria-label="Category name" maxlength="60">
@@ -9,15 +91,9 @@
         </div>
         <div class="scroll" id="catList"></div>
       </div>
+
       <div class="panel">
-        <h3><svg class="ic"><use href="#i-bag"/></svg>Products</h3>
-        <div class="formrow">
-          <input class="field" id="pName" placeholder="Product name" aria-label="Product name" style="flex:2;min-width:200px">
-          <select class="field" id="pCat" aria-label="Category"></select>
-          <input class="field" id="pPrice" type="number" min="0" placeholder="Price ৳" aria-label="Price">
-          <input class="field" id="pStock" type="number" min="0" placeholder="Stock" aria-label="Stock">
-          <button class="btn" id="addProd" style="flex:0"><svg class="ic"><use href="#i-plus"/></svg>Add product</button>
-        </div>
+        <h3><svg class="ic"><use href="#i-stack"/></svg>All products</h3>
         <div class="scroll" id="prodList"></div>
       </div>
     </section>

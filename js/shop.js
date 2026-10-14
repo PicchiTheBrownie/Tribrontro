@@ -92,3 +92,6 @@ document.getElementById('clearFilters').addEventListener('click', () => { ['size
 document.addEventListener('click', e => {
   if (e.target.closest('.view-details')) e.stopPropagation();
 }, true);
+
+/* Products arrive from the admin panel after the page opens (js/supabase.js): redraw filters, grid and category counts */
+window.addEventListener('products-ready', () => { buildFilterPanel(); renderShop(); renderCategoryRails(); });

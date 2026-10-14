@@ -7,42 +7,57 @@ var SUPABASE_ANON_KEY = 'sb_publishable_xFUgjtsBKKC5zYc4s1bRzg_FjfllZEJ';
 var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 window.TRIB_SB = sb;   /* customer-auth.js uses this same client, so login is shared with order saving */
 
-/* ---------- 1) Products load ---------- */
+/* ---------- 1) Products load ----------
+   Products you add in the admin panel (Products & Categories) are read from the "products" table.
+   Hidden products are skipped. If the table is empty, the built-in list in js/data.js is used. */
+function toList(v) {
+  if (Array.isArray(v)) return v;
+  if (typeof v === 'string' && v.trim()) return v.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+  return [];
+}
+function mapProduct(r, i) {
+  var sizes = toList(r.sizes), colors = toList(r.colors);
+  return {
+    id: r.id,
+    name: r.name,
+    price: Number(r.price) || 0,
+    stock: Number(r.stock) || 0,
+    sizes: sizes.length ? sizes : ['One size'],
+    colors: colors.length ? colors : ['Black'],
+    tags: toList(r.tags),
+    tex: Number(r.tex) || ((i % 5) + 1),
+    img: r.img || '',
+    imgBack: r.img_back || '',
+    desc: r.description || '',
+    colorHex: (r.color_hex && typeof r.color_hex === 'object') ? r.color_hex : {}
+  };
+}
 async function loadProducts() {
   try {
     var res = await sb.from('products').select('*').order('id');
     if (res.error) throw res.error;
-    if (!res.data || !res.data.length) return;   /* table faka hole purano hardcoded list e thakbe */
-
-    var rows = res.data.map(function (r) {
-      return {
-        id: r.id,
-        name: r.name,
-        price: r.price,
-        stock: r.stock,
-        sizes: r.sizes || [],
-        colors: r.colors || [],
-        tags: r.tags || [],
-        tex: r.tex,
-        img: r.img,
-        imgBack: r.img_back,
-        desc: r.description
-      };
-    });
-
-    /* PRODUCTS array ta jekhane-i define kora thak, tar bhitore data bosiye dey */
-    if (typeof PRODUCTS !== 'undefined' && Array.isArray(PRODUCTS)) {
-      PRODUCTS.length = 0;
-      rows.forEach(function (r) { PRODUCTS.push(r); });
-    } else {
-      window.PRODUCTS = rows;
+    if (!res.data || !res.data.length) {            /* table is empty: keep the built-in list */
+      try { localStorage.removeItem(PRODUCT_CACHE_KEY); } catch (e) {}
+      return;
     }
 
-    /* Router ke abar chalay, jate current page notun data diye re-render hoy */
+    var rows = res.data.filter(function (r) { return r.active !== false; }).map(mapProduct);
+    setProducts(rows);
+    try { localStorage.setItem(PRODUCT_CACHE_KEY, JSON.stringify(rows)); } catch (e) {}
+
+    /* remove cart lines whose product is gone */
+    if (typeof cart !== 'undefined') {
+      var keep = cart.filter(function (l) { return PRODUCTS.some(function (p) { return p.id === l.id; }); });
+      if (keep.length !== cart.length) { cart = keep; if (typeof saveCart === 'function') saveCart(); }
+    }
+    if (typeof updateCartUI === 'function') updateCartUI();
+
+    /* shop, category counts and the home carousel redraw themselves on this event */
     window.dispatchEvent(new Event('products-ready'));
-    window.dispatchEvent(new Event('hashchange'));
+    /* the product page redraws on hashchange */
+    if (/^#\/product\//.test(location.hash)) window.dispatchEvent(new Event('hashchange'));
   } catch (err) {
-    console.error('Supabase products error:', err);   /* error hole site purano data diye cholbe */
+    console.error('Supabase products error:', err);   /* on error the site keeps the products it already has */
   }
 }
 
